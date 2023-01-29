@@ -13,6 +13,7 @@ sudo DEBIAN_FRONTEND=noninteractive  apt-get install --no-install-recommends -y 
 	openbox \
 	python3-jinja2 \
 	python3-numpy \
+	python3-vcstool \
 	python3-xdg \
 	python3-xmltodict \
 	qt5dxcb-plugin \
