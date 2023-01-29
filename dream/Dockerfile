@@ -48,11 +48,11 @@ RUN /tmp/install/base.sh && /docker_clean.sh
 COPY install/zephyr.sh /tmp/install/zephyr.sh
 RUN /tmp/install/zephyr.sh && /docker_clean.sh
 
-COPY install/gazebo.sh /tmp/install/gazebo.sh
-RUN /tmp/install/gazebo.sh && /docker_clean.sh
-
 COPY install/ros.sh /tmp/install/ros.sh
 RUN /tmp/install/ros.sh && /docker_clean.sh
+
+COPY install/gazebo_custom.sh /tmp/install/gazebo.sh
+RUN /tmp/install/gazebo.sh && /docker_clean.sh
 
 COPY install/zenoh.sh /tmp/install/zenoh.sh
 RUN /tmp/install/zenoh.sh && /docker_clean.sh

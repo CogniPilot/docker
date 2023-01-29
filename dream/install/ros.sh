@@ -10,7 +10,7 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-a
 sudo apt-get -y update
 sudo apt-get -y upgrade
 sudo DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
-	ros-${ROS_VERSION}-desktop-full \
+	ros-${ROS_VERSION}-desktop \
 	ros-${ROS_VERSION}-cyclonedds \
 	ros-${ROS_VERSION}-rmw-cyclonedds-cpp \
 	ros-${ROS_VERSION}-ros-gz-bridge \
