@@ -1,4 +1,7 @@
 #!/bin/bash
 
 # setup .profile, note bashrc doesn't get sourced by docker by defualt, .profile does
-echo "source ~/.venv/bin/activate" >> ~/.profile
+cat << EOF >> ~/.profile
+source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
+EOF
+

@@ -1,5 +1,7 @@
 FROM ubuntu:22.04
 
+ENV TERM=xterm-256color
+
 # Set default shell during Docker image build to bash
 SHELL ["/bin/bash", "-l", "-c"]
 
@@ -12,13 +14,17 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -y update && \
   apt-get -y upgrade && \
   apt-get install --no-install-recommends -y \
     sudo \
+    bash-completion \
     locales \
     git \
     texlive-latex-extra \
     texlive-bibtex-extra \
+    texlive-fonts-recommended \
+    texlive-xetex \
     latexmk \
     python3-pip \
     python3-venv \
+    virtualenvwrapper \
     graphviz \
     wget \
     && \
@@ -38,14 +44,16 @@ RUN sudo useradd --create-home -l -u $UID_USER -G sudo,plugdev user && \
 USER user
 
 RUN wget https://raw.githubusercontent.com/CogniPilot/pyecca/main/requirements.txt -O /tmp/requirements.txt && \
-  python3 -m venv ~/.venv && \
-  source ~/.venv/bin/activate && \
-  python -m pip install -r /tmp/requirements.txt
+  source /usr/share/virtualenvwrapper/virtualenvwrapper.sh  && \
+  mkvirtualenv -r /tmp/requirements.txt pyecca
 
 # setup entry point
 COPY install/user_setup.sh /tmp
 RUN sudo chmod +x /tmp/user_setup.sh && \
   /tmp/user_setup.sh
+
+# enable apt auto-completion by deleting autoclean task
+RUN sudo rm /etc/apt/apt.conf.d/docker-clean
 
 # create workdir, this is where the source code will be mounted
 VOLUME /workdir
