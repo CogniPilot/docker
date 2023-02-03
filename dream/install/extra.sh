@@ -10,6 +10,7 @@ sudo DEBIAN_FRONTEND=noninteractive  apt-get install --no-install-recommends -y 
 	lcov \
 	gosu \
 	menu \
+	mesa-utils \
 	openbox \
 	python3-jinja2 \
 	python3-numpy \

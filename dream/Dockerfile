@@ -96,7 +96,7 @@ RUN mkdir /tmp/runtime-docker && sudo chmod 700 /tmp/runtime-docker
 
 # create a user for running the container
 ARG UID_USER=1000
-RUN sudo useradd --create-home -l -u $UID_USER -G sudo,plugdev,render,input,vglusers user && \
+RUN sudo useradd --create-home -l -u $UID_USER -G sudo,plugdev,render,input,vglusers,video user && \
  echo user: $UID_USER && \
  sudo vglserver_config +egl
 
