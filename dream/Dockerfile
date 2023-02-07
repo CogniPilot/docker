@@ -119,6 +119,7 @@ RUN sudo mkdir -p /workdir && sudo chown -R user:user /workdir
 # setup entry point
 COPY install/entrypoint.sh /
 RUN sudo chmod +x /entrypoint.sh
+RUN sudo chsh -s /bin/bash user
 
 CMD ["/bin/bash"]
 ENTRYPOINT ["/entrypoint.sh"]
