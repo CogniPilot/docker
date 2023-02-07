@@ -9,6 +9,7 @@ sudo chown -R user:user /home/user/.cmake
 mkdir -p ~/bin
 cd ~/bin
 ln -s /opt/.venv-zephyr/bin/west .
+ln -s /workdir/cerebri_workspace/cerebri/build/zephyr/zephyr.elf cerebri
 
 # setup vnc
 mkdir ~/.vnc && echo "$VNCPASSWD" | /opt/TurboVNC/bin/vncpasswd -f > ~/.vnc/passwd && \
@@ -18,17 +19,13 @@ mkdir ~/.vnc && echo "$VNCPASSWD" | /opt/TurboVNC/bin/vncpasswd -f > ~/.vnc/pass
 cat << EOF >> ~/.bashrc
 source /opt/ros/humble/setup.bash
 export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-export GZ_SIM_RESOURCE_PATH=/workdir/dream/models:/workdir/dream/worlds
+export GZ_SIM_RESOURCE_PATH=/workdir/ws/src/dream/models:/workdir/ws/src/dream/worlds
+if [ -f /workdir/ws/install/setup.sh ]; then
+  source /workdir/ws/install/setup.sh
+  echo "dream built, sourcing"
+fi
 if [ -f /workdir/gazebo/install/setup.sh ]; then
   source /workdir/gazebo/install/setup.sh
   echo "gazebo built, sourcing"
-fi
-if [ -f /workdir/cranium/install/setup.sh ]; then
-  source /workdir/cranium/install/setup.sh
-  echo "cranium built, sourcing"
-fi
-if [ -f /workdir/electrode/install/setup.sh ]; then
-  source /workdir/electrode/install/setup.sh
-  echo "electrode built, sourcing"
 fi
 EOF
