@@ -30,3 +30,4 @@ services:
       - ${SSH_AUTH_SOCK}:${SSH_AUTH_SOCK}
       - $HOME/gnupg:/home/user/.gnupg
       - $HOME/.ssh:/home/user/.ssh
+      - $HOME/.gitconfig:/home/user/.gitconfig
