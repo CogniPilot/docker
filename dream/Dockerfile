@@ -111,10 +111,10 @@ VOLUME /home/user/.gz
 RUN mkdir -p /home/user/.gz && \
   chown -R user:user /home/user/.gz
 
-# create workdir, this is where the source code will be mounted
-VOLUME /workdir
-WORKDIR /workdir
-RUN sudo mkdir -p /workdir && sudo chown -R user:user /workdir
+# create ws, this is where the source code will be mounted
+VOLUME /home/user/work
+WORKDIR /home/user/work
+RUN mkdir -p /home/user/work
 
 # setup entry point
 COPY install/entrypoint.sh /
