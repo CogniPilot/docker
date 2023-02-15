@@ -5,6 +5,8 @@ ZSDK_VERSION="0.15.2"
 sudo -E /opt/toolchains/zephyr-sdk-${ZSDK_VERSION}/setup.sh -c
 sudo chown -R user:user /home/user/.cmake
 
+sudo rosdep init
+
 # create symlink to west in $HOME/bin
 mkdir -p ~/bin
 cd ~/bin
@@ -18,7 +20,10 @@ mkdir ~/.vnc && echo "$VNCPASSWD" | /opt/TurboVNC/bin/vncpasswd -f > ~/.vnc/pass
 
 cat << EOF >> ~/.bashrc
 source /opt/ros/humble/setup.bash
+export ZEPHYR_BASE=~/work/west/zephyr
+export CCACHE_TEMPDIR=/tmp/ccache
 export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+export PYTHONWARNINGS=ignore:::setuptools.command.install
 export GZ_SIM_RESOURCE_PATH=~/work/ws/src/dream/models:~/work/ws/src/dream/worlds
 if [ -f ~/work/ws/install/setup.sh ]; then
   source ~/work/ws/install/setup.sh
@@ -28,4 +33,6 @@ if [ -f ~/work/gazebo/install/setup.sh ]; then
   source ~/work/gazebo/install/setup.sh
   echo "gazebo built, sourcing"
 fi
+source /usr/share/colcon_cd/function/colcon_cd.sh
+source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
 EOF

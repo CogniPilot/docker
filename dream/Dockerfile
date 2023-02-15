@@ -79,6 +79,9 @@ RUN cd /tmp && \
     ./turbovnc_3.0.2_amd64.deb && \
   /docker_clean.sh
 
+COPY install/latex.sh /tmp/install/latex.sh
+RUN /tmp/install/latex.sh && /docker_clean.sh
+
 COPY install/extra.sh /tmp/install/extra.sh
 RUN /tmp/install/extra.sh && /docker_clean.sh
 

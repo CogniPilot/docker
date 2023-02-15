@@ -12,7 +12,14 @@ sudo apt-get -y upgrade
 sudo DEBIAN_FRONTEND=noninteractive  apt-get install --no-install-recommends -y \
 	git cmake ninja-build gperf \
  	ccache dfu-util device-tree-compiler wget \
- 	python3-dev python3-pip python3-setuptools python3-tk python3-wheel xz-utils file \
+	python3-pip \
+	python3-pyelftools \
+	python3-setuptools \
+	python3-tk \
+	python3-wheel \
+ 	python3-dev \
+	xz-utils \
+	file \
 	make gcc libmagic1 \
 	libasan6 net-tools valgrind
 
@@ -32,6 +39,7 @@ python3 -m venv --prompt zephyr /opt/.venv-zephyr
 source /opt/.venv-zephyr/bin/activate
 pip install wheel
 pip install west
+pip install catkin-tools
 pip install -r https://raw.githubusercontent.com/zephyrproject-rtos/zephyr/master/scripts/requirements.txt
 pip3 check
 

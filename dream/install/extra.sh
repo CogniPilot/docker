@@ -5,7 +5,6 @@ set -x
 sudo apt-get -y update
 sudo apt-get -y upgrade
 sudo DEBIAN_FRONTEND=noninteractive  apt-get install --no-install-recommends -y \
-	gosu \
 	htop \
 	ipe \
 	iproute2 \
@@ -21,7 +20,4 @@ sudo DEBIAN_FRONTEND=noninteractive  apt-get install --no-install-recommends -y 
 	qt5dxcb-plugin \
 	screen \
 	terminator \
-	texlive-bibtex-extra \
-	texlive-latex-extra \
-	texstudio \
 	vim
