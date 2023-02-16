@@ -21,3 +21,5 @@ sudo DEBIAN_FRONTEND=noninteractive  apt-get install --no-install-recommends -y 
 	screen \
 	terminator \
 	vim
+
+sudo pip install pykwalify

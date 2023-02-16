@@ -43,4 +43,8 @@ pip install catkin-tools
 pip install -r https://raw.githubusercontent.com/zephyrproject-rtos/zephyr/master/scripts/requirements.txt
 pip3 check
 
-
+# install zephyr
+sudo mkdir /opt/zephyr
+sudo chown $CURRENT_USER:$CURRENT_USER /opt/zephyr
+cd /opt/zephyr
+west init --mr v3.2.0
