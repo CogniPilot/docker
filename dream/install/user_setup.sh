@@ -21,7 +21,7 @@ mkdir ~/.vnc && echo "$VNCPASSWD" | /opt/TurboVNC/bin/vncpasswd -f > ~/.vnc/pass
 
 cat << EOF >> ~/.bashrc
 source /opt/ros/humble/setup.bash
-export ZEPHYR_BASE=~/work/west/zephyr
+export ZEPHYR_BASE=/opt/zephyr/zephyr
 export CCACHE_TEMPDIR=/tmp/ccache
 export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 export PYTHONWARNINGS=ignore:::setuptools.command.install
