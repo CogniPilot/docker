@@ -105,7 +105,7 @@ RUN sudo useradd --create-home -l -u $UID_USER -G sudo,plugdev,render,input,vglu
 
 USER user
 
-ARG VNCPASSWD=cpilot1!
+ARG VNCPASSWD=cogni<3
 COPY install/user_setup.sh /tmp/install/user_setup.sh
 RUN /tmp/install/user_setup.sh $VNCPASSWD && /docker_clean.sh
 
