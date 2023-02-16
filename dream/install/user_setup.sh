@@ -1,10 +1,12 @@
 #!/bin/bash
-VNCPASSWD=$1
+set -e
+set -x
+
+VNCPASSWD="$1"
 ZSDK_VERSION="0.15.2"
 
 sudo -E /opt/toolchains/zephyr-sdk-${ZSDK_VERSION}/setup.sh -c
 sudo chown -R user:user /home/user/.cmake
-sudo chown -R user:user /opt/zephyr
 
 sudo rosdep init
 
@@ -12,7 +14,6 @@ sudo rosdep init
 mkdir -p ~/bin
 cd ~/bin
 ln -s /opt/.venv-zephyr/bin/west .
-ln -s ~/work/cerebri_workspace/cerebri/build/zephyr/zephyr.elf cerebri
 
 # setup vnc
 mkdir ~/.vnc && echo "$VNCPASSWD" | /opt/TurboVNC/bin/vncpasswd -f > ~/.vnc/passwd && \
@@ -21,10 +22,10 @@ mkdir ~/.vnc && echo "$VNCPASSWD" | /opt/TurboVNC/bin/vncpasswd -f > ~/.vnc/pass
 
 cat << EOF >> ~/.bashrc
 source /opt/ros/humble/setup.bash
-export ZEPHYR_BASE=/opt/zephyr/zephyr
+export ZEPHYR_BASE=~/work/zephyr_workspace/zephyr
 export CCACHE_TEMPDIR=/tmp/ccache
 export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-export PYTHONWARNINGS=ignore:::setuptools.command.install
+export PYTHONWARNINGS=ignore:::setuptools.installer,ignore:::setuptools.command.install
 export GZ_SIM_RESOURCE_PATH=~/work/ws/src/dream/models:~/work/ws/src/dream/worlds
 if [ -f ~/work/ws/install/setup.sh ]; then
   source ~/work/ws/install/setup.sh
