@@ -1,5 +1,5 @@
 #!/bin/bash
-dirs="pyecca dream cerebri"
+dirs="dream cerebri"
 
 for dir in $dirs
 do
