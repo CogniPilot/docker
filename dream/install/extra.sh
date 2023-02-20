@@ -6,6 +6,7 @@ sudo apt-get -y update
 sudo apt-get -y upgrade
 sudo DEBIAN_FRONTEND=noninteractive  apt-get install --no-install-recommends -y \
 	htop \
+	gdb \
 	ipe \
 	iproute2 \
 	lcov \

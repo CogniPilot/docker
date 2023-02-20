@@ -25,7 +25,7 @@ source /opt/ros/humble/setup.bash
 export ZEPHYR_BASE=~/work/zephyr_workspace/zephyr
 export CCACHE_TEMPDIR=/tmp/ccache
 export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-export PYTHONWARNINGS=ignore:::setuptools.installer,ignore:::setuptools.command.install
+export PYTHONWARNINGS=ignore:::setuptools.installer,ignore:::setuptools.command.install,ignore:::setuptools.command.easy_install
 export GZ_SIM_RESOURCE_PATH=~/work/cranium/src/dream/models:~/work/cranium/src/dream/worlds
 if [ -f ~/work/gazebo/install/setup.sh ]; then
   source ~/work/gazebo/install/setup.sh
