@@ -5,8 +5,8 @@ set -x
 sudo apt-get -y update
 sudo apt-get -y upgrade
 sudo DEBIAN_FRONTEND=noninteractive  apt-get install --no-install-recommends -y \
-	htop \
 	gdb \
+	htop \
 	ipe \
 	iproute2 \
 	lcov \
@@ -19,8 +19,8 @@ sudo DEBIAN_FRONTEND=noninteractive  apt-get install --no-install-recommends -y 
 	python3-xdg \
 	python3-xmltodict \
 	qt5dxcb-plugin \
+	ros-humble-rqt-tf-tree \
 	screen \
 	terminator \
 	vim
-
 sudo pip install pykwalify
