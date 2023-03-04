@@ -12,6 +12,8 @@ sudo DEBIAN_FRONTEND=noninteractive  apt-get install --no-install-recommends -y 
 	lcov \
 	menu \
 	mesa-utils \
+	ros-humble-navigation2 \
+	ros-humble-nav2-bringup \
 	openbox \
 	python3-jinja2 \
 	python3-numpy \
