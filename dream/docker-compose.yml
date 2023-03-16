@@ -12,8 +12,12 @@ services:
     environment:
       - DISPLAY=$DISPLAY
       - RUN_VNC=false
-      - RUN_ZETH=false
+      - RUN_ZETH=true
       - SSH_AUTH_SOCK=${SSH_AUTH_SOCK}
+    logging:
+        driver: "json-file"
+        options:
+            max-size: "50m"
     image: ${REGISTRY}/cognipilot/dream:${TAG}
     build:
       dockerfile: Dockerfile

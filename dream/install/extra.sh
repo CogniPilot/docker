@@ -20,9 +20,12 @@ sudo DEBIAN_FRONTEND=noninteractive  apt-get install --no-install-recommends -y 
 	python3-vcstool \
 	python3-xdg \
 	python3-xmltodict \
+	python3-pykwalify \
+	python3-pyelftools \
 	qt5dxcb-plugin \
 	ros-humble-rqt-tf-tree \
 	screen \
 	terminator \
 	vim
-sudo pip install pykwalify
+
+sudo pip install west

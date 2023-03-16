@@ -23,13 +23,21 @@ sudo DEBIAN_FRONTEND=noninteractive  apt-get install --no-install-recommends -y 
 	make gcc libmagic1 \
 	libasan6 net-tools valgrind
 
-# get sdk
 sudo mkdir -p /opt/toolchains
 cd /opt/toolchains
-sudo wget ${WGET_ARGS} https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${ZSDK_VERSION}/zephyr-sdk-${ZSDK_VERSION}_linux-${HOSTTYPE}_minimal.tar.gz
-sudo tar xf zephyr-sdk-${ZSDK_VERSION}_linux-${HOSTTYPE}_minimal.tar.gz
-sudo zephyr-sdk-${ZSDK_VERSION}/setup.sh -h -c
-sudo rm zephyr-sdk-${ZSDK_VERSION}_linux-${HOSTTYPE}_minimal.tar.gz
+
+# get minimal host-only sdk
+#sudo wget ${WGET_ARGS} https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${ZSDK_VERSION}/zephyr-sdk-${ZSDK_VERSION}_linux-${HOSTTYPE}_minimal.tar.gz
+#sudo tar xf zephyr-sdk-${ZSDK_VERSION}_linux-${HOSTTYPE}_minimal.tar.gz
+#sudo zephyr-sdk-${ZSDK_VERSION}/setup.sh -h -c
+#sudo rm zephyr-sdk-${ZSDK_VERSION}_linux-${HOSTTYPE}_minimal.tar.gz
+
+# get full sdk
+sudo wget ${WGET_ARGS} https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${ZSDK_VERSION}/zephyr-sdk-${ZSDK_VERSION}_linux-x86_64.tar.gz
+sudo tar xvf zephyr-sdk-${ZSDK_VERSION}_linux-x86_64.tar.gz
+cd /opt/toolchains/zephyr-sdk-${ZSDK_VERSION}
+sudo ./setup.sh -t all -h
+sudo rm /opt/toolchains/zephyr-sdk-${ZSDK_VERSION}_linux-x86_64.tar.gz
 
 # setup west
 CURRENT_USER=`whoami`
