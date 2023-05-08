@@ -32,6 +32,6 @@ services:
       - gz_config:/home/user/.gz
       - /tmp/.X11-unix:/tmp/.X11-unix
       - ${SSH_AUTH_SOCK}:${SSH_AUTH_SOCK}
-      - $HOME/gnupg:/home/user/.gnupg
+      - $HOME/.gnupg:/home/user/.gnupg
       - $HOME/.ssh:/home/user/.ssh
       - $HOME/.gitconfig:/home/user/.gitconfig

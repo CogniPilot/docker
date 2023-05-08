@@ -5,6 +5,10 @@ set -x
 VNCPASSWD="$1"
 ZSDK_VERSION="0.15.2"
 
+# vim setup
+/opt/vim/vim.sh
+
+# zephyr
 sudo -E /opt/toolchains/zephyr-sdk-${ZSDK_VERSION}/setup.sh -c
 sudo chown -R user:user /home/user/.cmake
 
@@ -22,7 +26,7 @@ mkdir ~/.vnc && echo "$VNCPASSWD" | /opt/TurboVNC/bin/vncpasswd -f > ~/.vnc/pass
 
 cat << EOF >> ~/.bashrc
 source /opt/ros/humble/setup.bash
-export ZEPHYR_BASE=~/work/zephyr_workspace/zephyr
+export CMAKE_EXPORT_COMPILE_COMMANDS=ON
 export CCACHE_TEMPDIR=/tmp/ccache
 export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 export PYTHONWARNINGS=ignore:::setuptools.installer,ignore:::setuptools.command.install,ignore:::setuptools.command.easy_install

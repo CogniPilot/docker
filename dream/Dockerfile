@@ -51,7 +51,7 @@ RUN /tmp/install/zephyr.sh && /docker_clean.sh
 COPY install/ros.sh /tmp/install/ros.sh
 RUN /tmp/install/ros.sh && /docker_clean.sh
 
-COPY install/gazebo_custom.sh /tmp/install/gazebo.sh
+COPY install/gazebo.sh /tmp/install/gazebo.sh
 RUN /tmp/install/gazebo.sh && /docker_clean.sh
 
 COPY install/zenoh.sh /tmp/install/zenoh.sh
@@ -84,6 +84,10 @@ RUN /tmp/install/latex.sh && /docker_clean.sh
 
 COPY install/extra.sh /tmp/install/extra.sh
 RUN /tmp/install/extra.sh && /docker_clean.sh
+
+COPY install/vim.sh /opt/vim/vim.sh
+RUN sudo chmod +x /opt/vim/vim.sh
+COPY install/vimrc /opt/vim/vimrc
 
 # setup zeth ethernet device
 RUN sudo mkdir -p /opt/zeth

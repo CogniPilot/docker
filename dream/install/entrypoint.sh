@@ -9,4 +9,7 @@ if [ "$RUN_ZETH" = true ] ; then
   cd /opt/zeth &&  sudo ./net-setup.sh start
 fi
 
+cd $HOME/work
+
 exec $@
+
