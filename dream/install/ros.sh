@@ -17,6 +17,4 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
 	ros-${ROS_VERSION}-gps-msgs \
 	ros-${ROS_VERSION}-actuator-msgs \
 	python3-rosdep \
-	python3-colcon-ros \
-	python3-colcon-argcomplete \
-	python3-colcon-cd
+	python3-colcon-common-extensions
