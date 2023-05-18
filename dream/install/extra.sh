@@ -30,6 +30,7 @@ sudo DEBIAN_FRONTEND=noninteractive  apt-get install --no-install-recommends -y 
 	ros-humble-rqt-tf-tree \
 	screen \
 	terminator \
+	xterm \
 	vim
 
 sudo pip install west protobuf
