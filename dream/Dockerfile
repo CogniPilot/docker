@@ -45,6 +45,13 @@ USER installer
 COPY install/base.sh /tmp/install/base.sh
 RUN /tmp/install/base.sh && /docker_clean.sh
 
+COPY install/latex.sh /tmp/install/latex.sh
+RUN /tmp/install/latex.sh && /docker_clean.sh
+
+COPY install/vim.sh /opt/vim/vim.sh
+RUN sudo chmod +x /opt/vim/vim.sh
+COPY install/vimrc /opt/vim/vimrc
+
 COPY install/zephyr.sh /tmp/install/zephyr.sh
 RUN /tmp/install/zephyr.sh && /docker_clean.sh
 
@@ -79,15 +86,8 @@ RUN cd /tmp && \
     ./turbovnc_3.0.2_amd64.deb && \
   /docker_clean.sh
 
-COPY install/latex.sh /tmp/install/latex.sh
-RUN /tmp/install/latex.sh && /docker_clean.sh
-
 COPY install/extra.sh /tmp/install/extra.sh
 RUN /tmp/install/extra.sh && /docker_clean.sh
-
-COPY install/vim.sh /opt/vim/vim.sh
-RUN sudo chmod +x /opt/vim/vim.sh
-COPY install/vimrc /opt/vim/vimrc
 
 # setup zeth ethernet device
 RUN sudo mkdir -p /opt/zeth
