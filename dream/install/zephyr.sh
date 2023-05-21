@@ -3,7 +3,7 @@ set -e
 set -x
 
 WGET_ARGS="-q --show-progress --progress=bar:force:noscroll --no-check-certificate"
-ZSDK_VERSION="0.15.2"
+ZSDK_VERSION="0.16.1"
 
 # install required packages
 # https://docs.zephyrproject.org/latest/develop/getting_started/index.html
