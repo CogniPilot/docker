@@ -3,7 +3,7 @@ set -e
 set -x
 
 VNCPASSWD="$1"
-ZSDK_VERSION="0.15.2"
+ZSDK_VERSION="0.16.1"
 
 # vim setup
 /opt/vim/vim.sh
@@ -42,4 +42,10 @@ if [ -f ~/work/cranium/install/setup.sh ]; then
 fi
 source /usr/share/colcon_cd/function/colcon_cd.sh
 source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
+EOF
+
+cat << EOF >> ~/.gdbinit
+define hook-stop
+  refresh
+end
 EOF
