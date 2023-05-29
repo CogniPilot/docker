@@ -89,9 +89,9 @@ RUN cd /tmp && \
 COPY install/extra.sh /tmp/install/extra.sh
 RUN /tmp/install/extra.sh && /docker_clean.sh
 
-COPY install/JLink_Linux_V788c_x86_64.deb /tmp/install
-COPY install/jlink.sh /tmp/install/jlink.sh
-RUN /tmp/install/jlink.sh && /docker_clean.sh
+COPY install/JLink_Linux_V788c_x86_64.deb /tmp/
+COPY install/jlink.sh /tmp/jlink.sh
+RUN /tmp/jlink.sh && /docker_clean.sh
 
 # setup zeth ethernet device
 RUN sudo mkdir -p /opt/zeth
