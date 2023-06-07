@@ -14,6 +14,7 @@ sudo DEBIAN_FRONTEND=noninteractive  apt-get install --no-install-recommends -y 
 	ipe \
 	iproute2 \
 	lcov \
+	meld \
 	menu \
 	mesa-utils \
 	openbox \
