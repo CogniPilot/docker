@@ -27,7 +27,6 @@ mkdir ~/.vnc && echo "$VNCPASSWD" | /opt/TurboVNC/bin/vncpasswd -f > ~/.vnc/pass
 cat << EOF >> ~/.bashrc
 source /opt/ros/humble/setup.bash
 export GPG_TTY=\$(tty)
-export CEREBRI_BINARY_BASE=/home/user/work/ws/cerebri/app
 export CMAKE_EXPORT_COMPILE_COMMANDS=ON
 export CCACHE_TEMPDIR=/tmp/ccache
 export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
