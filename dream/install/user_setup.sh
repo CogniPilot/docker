@@ -31,6 +31,10 @@ export CMAKE_EXPORT_COMPILE_COMMANDS=ON
 export CCACHE_TEMPDIR=/tmp/ccache
 export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 export PYTHONWARNINGS=ignore:::setuptools.installer,ignore:::setuptools.command.install,ignore:::setuptools.command.easy_install
+if [ -f ~/work/ws/zephyr/scripts/west_commands/completion/west-completion.bash ]; then
+  echo "sourcing west completion"
+  source ~/work/ws/zephyr/scripts/west_commands/completion/west-completion.bash
+fi
 if [ -f ~/work/gazebo/install/setup.sh ]; then
   source ~/work/gazebo/install/setup.sh
   echo "gazebo built, sourcing"
