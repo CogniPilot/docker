@@ -1,5 +1,5 @@
 #!/bin/bash
-dirs="dream cerebri"
+dirs="dream"
 
 for dir in $dirs
 do
