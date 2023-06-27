@@ -44,6 +44,10 @@ if [ -f ~/work/cranium/install/setup.sh ]; then
   source ~/work/cranium/install/setup.sh
   echo "dream built, sourcing"
 fi
+if [ -f ~/work/ws/cerebri/install/setup.sh ]; then
+  source ~/work/ws/cerebri/install/setup.sh
+  echo "cerebri built, sourcing"
+fi
 source /usr/share/colcon_cd/function/colcon_cd.sh
 source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
 EOF
