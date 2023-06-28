@@ -8,6 +8,7 @@ sudo DEBIAN_FRONTEND=noninteractive  apt-get install --no-install-recommends -y 
 	clang-format \
 	clang-tidy \
 	ddd \
+	gcc-multilib \
 	gdb \
 	gnupg2 \
 	htop \
