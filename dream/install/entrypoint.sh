@@ -27,7 +27,7 @@ usermod --uid "$HOST_UID" user
 
 # Drop privileges and execute next container command, or 'bash' if not specified.
 if [[ $# -gt 0 ]]; then
-    exec sudo -u user -H -i -- "$@"
+    sudo -u user -H -i -- "$@"
 else
-    exec sudo -u user -H -i -- bash
+    sudo -u user -H -i -- bash
 fi
