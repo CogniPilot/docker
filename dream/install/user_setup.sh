@@ -54,6 +54,7 @@ if [ -f ~/work/ws/cerebri/install/setup.sh ]; then
 fi
 source /usr/share/colcon_cd/function/colcon_cd.sh
 source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
+cd $HOME/work
 EOF
 
 cat << EOF >> ~/.gdbinit
