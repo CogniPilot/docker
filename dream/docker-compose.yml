@@ -24,13 +24,13 @@ services:
     build:
       dockerfile: Dockerfile
     tty: true
+    ipc: host
     stdin_open: true
     privileged: true
     hostname: dream
     sysctls:
       - net.ipv6.conf.all.disable_ipv6=0
     volumes:
-      - /dev/bus/usb/:/dev/bus/usb
       - ./work:/home/user/work
       - gz_config:/home/user/.gz
       - /tmp/.X11-unix:/tmp/.X11-unix
