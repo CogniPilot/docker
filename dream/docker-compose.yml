@@ -10,6 +10,8 @@ services:
   dream:
 
     environment:
+      - HOST_UID=${HOST_UID}
+      - HOST_GID=${HOST_GID}
       - DISPLAY=$DISPLAY
       - RUN_VNC=false
       - RUN_ZETH=true

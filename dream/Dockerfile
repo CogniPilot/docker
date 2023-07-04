@@ -132,6 +132,8 @@ COPY install/entrypoint.sh /
 RUN sudo chmod +x /entrypoint.sh
 RUN sudo chsh -s /bin/bash user
 
+USER root
+
 CMD ["/bin/bash"]
 ENTRYPOINT ["/entrypoint.sh"]
 
