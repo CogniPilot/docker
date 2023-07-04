@@ -133,7 +133,7 @@ RUN sudo chsh -s /bin/bash user
 
 USER root
 
-CMD ["/bin/bash"]
+CMD ["/bin/bash", "-l"]
 ENTRYPOINT ["/entrypoint.sh"]
 
 LABEL org.opencontainers.image.source = "https://github.com/CogniPilot/docker"

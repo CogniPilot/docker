@@ -25,11 +25,9 @@ fi
 groupmod --gid "$HOST_GID" user
 usermod --uid "$HOST_UID" user
 
-cd /home/user/work
-
 # Drop privileges and execute next container command, or 'bash' if not specified.
 if [[ $# -gt 0 ]]; then
-    exec sudo -u user -H -- "$@"
+    exec sudo -u user -H -i -- "$@"
 else
-    exec sudo -u user -H -- bash
+    exec sudo -u user -H -i -- bash
 fi
