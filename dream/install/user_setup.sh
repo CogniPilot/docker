@@ -89,6 +89,7 @@ cd ~/work
 EOF
 
 cat << EOF >> ~/.profile
+export XDG_RUNTIME_DIR=/tmp/runtime-user
 export NO_AT_BRIDGE=1
 export ROS_DOMAIN_ID=7
 export GPG_TTY=\$(tty)
