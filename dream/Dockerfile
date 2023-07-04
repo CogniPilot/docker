@@ -16,7 +16,6 @@ SHELL ["/bin/bash", "-l", "-c"]
 
 # Copy docker clean script
 COPY install/docker_clean.sh /docker_clean.sh
-RUN chmod +x /docker_clean.sh
 
 # Install base packages
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y update && \
@@ -49,8 +48,7 @@ COPY install/latex.sh /tmp/install/latex.sh
 RUN /tmp/install/latex.sh && /docker_clean.sh
 
 COPY install/vim.sh /opt/vim/vim.sh
-RUN sudo chmod +x /opt/vim/vim.sh
-COPY install/vimrc /opt/vim/vimrc
+RUN /opt/vim/vim.sh && /docker_clean.sh
 
 COPY install/zephyr.sh /tmp/install/zephyr.sh
 RUN /tmp/install/zephyr.sh && /docker_clean.sh
@@ -96,7 +94,6 @@ RUN /tmp/jlink.sh && /docker_clean.sh
 RUN sudo mkdir -p /opt/zeth
 COPY install/net-setup.sh /opt/zeth
 COPY install/zeth.conf /opt/zeth
-RUN sudo chmod +x /opt/zeth/net-setup.sh
 
 # enable apt auto-completion by deleting autoclean task
 RUN sudo rm /etc/apt/apt.conf.d/docker-clean
@@ -128,12 +125,11 @@ RUN mkdir -p /home/user/work
 
 # setup entry point
 COPY install/entrypoint.sh /
-RUN sudo chmod +x /entrypoint.sh
 RUN sudo chsh -s /bin/bash user
 
 USER root
 
-CMD ["/bin/bash", "-l"]
+CMD ["/bin/bash"]
 ENTRYPOINT ["/entrypoint.sh"]
 
 LABEL org.opencontainers.image.source = "https://github.com/CogniPilot/docker"

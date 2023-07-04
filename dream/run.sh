@@ -4,6 +4,7 @@ set -e
 if [[ -z "$SSH_AUTH_SOCK" ]]; then
     echo "ERROR: please start your ssh-agent with"
     echo "     eval \`ssh-agent\`"
+    echo "     ssh-add"
     exit 1
 fi
 export HOST_UID=$(id -u)
