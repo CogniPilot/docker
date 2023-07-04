@@ -13,6 +13,7 @@ sudo DEBIAN_FRONTEND=noninteractive  apt-get install --no-install-recommends -y 
 	git cmake ninja-build gperf \
  	ccache dfu-util device-tree-compiler wget \
 	python3-pip \
+	python3-pykwalify \
 	python3-pyelftools \
 	python3-setuptools \
 	python3-tk \

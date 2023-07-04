@@ -16,5 +16,9 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
 	ros-${ROS_VERSION}-ros-gz-bridge \
 	ros-${ROS_VERSION}-gps-msgs \
 	ros-${ROS_VERSION}-actuator-msgs \
+	ros-${ROS_VERSION}-nav2-bringup \
+	ros-${ROS_VERSION}-navigation2 \
+	ros-${ROS_VERSION}-rqt-tf-tree \
+	python3-vcstool \
 	python3-rosdep \
 	python3-colcon-common-extensions

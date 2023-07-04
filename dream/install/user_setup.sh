@@ -26,6 +26,7 @@ mkdir ~/.vnc && echo "$VNCPASSWD" | /opt/TurboVNC/bin/vncpasswd -f > ~/.vnc/pass
 
 cat << EOF >> ~/.bashrc
 source /opt/ros/humble/setup.bash
+export NO_AT_BRIDGE=1
 export ROS_DOMAIN_ID=7
 export GPG_TTY=\$(tty)
 export CMAKE_EXPORT_COMPILE_COMMANDS=ON
