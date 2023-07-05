@@ -85,6 +85,7 @@ if [ -d "~/bin" ] ; then
 fi
 source /usr/share/colcon_cd/function/colcon_cd.sh
 source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
+export GPG_TTY=\$(tty)
 cd ~/work
 EOF
 
@@ -92,7 +93,6 @@ cat << EOF >> ~/.profile
 export XDG_RUNTIME_DIR=/tmp/runtime-user
 export NO_AT_BRIDGE=1
 export ROS_DOMAIN_ID=7
-export GPG_TTY=\$(tty)
 export CMAKE_EXPORT_COMPILE_COMMANDS=ON
 export CCACHE_TEMPDIR=/tmp/ccache
 export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
