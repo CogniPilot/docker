@@ -5,10 +5,20 @@ volumes:
     # remembers gz config, downloaded models etc
     gz_config:
 
+networks:
+  static_network:
+    ipam:
+        config:
+          - subnet: 172.20.0.0/16
+
 services:
 
   dream:
-
+    networks:
+      static_network:
+        ipv4_address: 172.20.128.2
+    ports:
+      - 8888:8888
     environment:
       - HOST_UID=${HOST_UID}
       - HOST_GID=${HOST_GID}

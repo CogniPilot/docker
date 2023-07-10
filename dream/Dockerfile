@@ -86,6 +86,9 @@ RUN cd /tmp && \
 COPY install/extra.sh /tmp/install/extra.sh
 RUN /tmp/install/extra.sh && /docker_clean.sh
 
+COPY install/poetry.sh /tmp/install/poetry.sh
+RUN /tmp/install/poetry.sh && /docker_clean.sh
+
 COPY install/JLink_Linux_V788c_x86_64.deb /tmp/
 COPY install/jlink.sh /tmp/jlink.sh
 RUN /tmp/jlink.sh && /docker_clean.sh
@@ -127,11 +130,15 @@ RUN mkdir -p /home/user/work
 COPY install/entrypoint.sh /
 RUN sudo chsh -s /bin/bash user
 
+COPY install/jupyter_server_config.py /etc/jupyter/
+
 USER root
 
 CMD ["/bin/bash"]
 ENTRYPOINT ["/entrypoint.sh"]
 
 LABEL org.opencontainers.image.source = "https://github.com/CogniPilot/docker"
+
+EXPOSE 8888
 
 # vim: set et fenc=utf-8 ff=unix ft=dockerfile sts=0 sw=2 ts=2 :
