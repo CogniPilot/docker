@@ -118,8 +118,8 @@ RUN /tmp/install/user_setup.sh $VNCPASSWD && /docker_clean.sh
 
 # create setting directory for gazebo
 VOLUME /home/user/.gz
-RUN mkdir -p /home/user/.gz && \
-  chown -R user:user /home/user/.gz
+RUN mkdir -p /home/user/.gz
+RUN chown -R user:user /home/user/.gz
 
 # create ws, this is where the source code will be mounted
 VOLUME /home/user/work
@@ -129,6 +129,11 @@ RUN mkdir -p /home/user/work
 # setup entry point
 COPY install/entrypoint.sh /
 RUN sudo chsh -s /bin/bash user
+
+# create setting directory for jupyter
+VOLUME /home/user/.jupyter
+RUN mkdir -p /home/user/.jupyter
+RUN chown -R user:user /home/user/.jupyter
 
 COPY install/jupyter_server_config.py /etc/jupyter/
 
