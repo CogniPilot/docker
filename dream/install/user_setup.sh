@@ -89,11 +89,10 @@ fi
 source /usr/share/colcon_cd/function/colcon_cd.sh
 source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
 export GPG_TTY=\$(tty)
-cd ~/work
 EOF
 
 cat << EOF >> ~/.profile
-export GEN_CERT=true
+export GEN_CERT=yes
 export POETRY_VIRTUALENVS_IN_PROJECT=true
 export XDG_RUNTIME_DIR=/tmp/runtime-user
 export NO_AT_BRIDGE=1
