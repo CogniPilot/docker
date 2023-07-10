@@ -2,8 +2,8 @@ version: "3.9"
 
 volumes:
 
-    # remembers gz config, downloaded models etc
     gz_config:
+    jupyter_config:
 
 networks:
   static_network:
@@ -42,6 +42,7 @@ services:
     volumes:
       - ./work:/home/user/work
       - gz_config:/home/user/.gz
+      - jupyter_config:/home/user/.jupyter
       - /tmp/.X11-unix:/tmp/.X11-unix
       - $HOME/.gnupg:/home/user/.gnupg
       - $HOME/.ssh:/home/user/.ssh
