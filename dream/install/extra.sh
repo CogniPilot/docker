@@ -16,6 +16,7 @@ sudo DEBIAN_FRONTEND=noninteractive  apt-get install --no-install-recommends -y 
 	htop \
 	ipe \
 	iproute2 \
+	keychain \
 	libcanberra-gtk3-module \
 	lcov \
 	meld \
