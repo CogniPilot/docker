@@ -20,6 +20,8 @@ services:
     ports:
       - 8888:8888
     environment:
+      - SSH_KEYS=id_rsa
+      - GPG_KEYS=
       - HOST_UID=${HOST_UID}
       - HOST_GID=${HOST_GID}
       - DISPLAY=$DISPLAY

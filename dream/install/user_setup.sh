@@ -88,8 +88,6 @@ if [ -d "/opt/poetry/bin" ] ; then
 fi
 source /usr/share/colcon_cd/function/colcon_cd.sh
 source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
-export GPG_TTY=\$(tty)
-eval \`keychain --eval id_rsa\`
 EOF
 
 cat << EOF >> ~/.profile
@@ -102,6 +100,7 @@ export CMAKE_EXPORT_COMPILE_COMMANDS=ON
 export CCACHE_TEMPDIR=/tmp/ccache
 export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 export PYTHONWARNINGS=ignore:::setuptools.installer,ignore:::setuptools.command.install,ignore:::setuptools.command.easy_install
+eval \`keychain --eval --agents "gpg,ssh" \$GPG_KEYS \$SSH_KEYS\`
 EOF
 
 cat << EOF >> ~/.gdbinit
