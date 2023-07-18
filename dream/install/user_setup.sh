@@ -70,25 +70,25 @@ EOF
 cat << EOF >> ~/.profile
 source /opt/ros/humble/setup.bash
 if [ -f $HOME/work/ws/zephyr/scripts/west_commands/completion/west-completion.bash ]; then
-  echo -e "\\tsourcing west completion"
+  echo sourcing west completion
   source $HOME/work/ws/zephyr/scripts/west_commands/completion/west-completion.bash
 fi
 if [ -f $HOME/work/gazebo/install/setup.sh ]; then
   source $HOME/work/gazebo/install/setup.sh
-  echo -e "\\tgazebo built, sourcing"
+  echo gazebo built, sourcing
 fi
 if [ -f $HOME/work/cranium/install/setup.sh ]; then
   source $HOME/work/cranium/install/setup.sh
-  echo -e "\\tdream built, sourcing"
+  echo dream built, sourcing
 fi
 if [ -f $HOME/work/ws/cerebri/install/setup.sh ]; then
   source $HOME/work/ws/cerebri/install/setup.sh
-  echo -e "\\tcerebri built, sourcing"
+  echo cerebri built, sourcing
 fi
 if [ -d $HOME/bin ] ; then
   PATH="$HOME/bin/:\$PATH"
 fi
-if [ -d "/opt/poetry/bin" ] ; then
+if [ -d /opt/poetry/bin ] ; then
   PATH="/opt/poetry/bin:\$PATH"
 fi
 source /usr/share/colcon_cd/function/colcon_cd.sh
