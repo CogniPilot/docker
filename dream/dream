@@ -2,7 +2,6 @@
 
 from argparse import ArgumentParser
 import subprocess
-import webbrowser
 import os
 
 env = {
@@ -40,12 +39,13 @@ def logs(args):
     run(cmd)
 
 def clean(args):
+    run(['docker', 'compose', 'stop', 'dream'])
     run(['rm', '-rf', './work/'])
     run(['git', 'checkout', './work/'])
 
 def execute(args):
     cmd = ['docker', 'compose', 'exec', '-u', 'user', 'dream',
-    'bash', '-l']
+    '/bin/bash', '-l']
     if args.cmd is not None:
         cmd += ['-c', args.cmd]
     run(cmd)

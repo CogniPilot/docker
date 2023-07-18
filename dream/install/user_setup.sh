@@ -62,37 +62,38 @@ mkdir ~/.vnc && echo "$VNCPASSWD" | /opt/TurboVNC/bin/vncpasswd -f > ~/.vnc/pass
   chmod 600 ~/.vnc/passwd && \
   openssl req -x509 -nodes -newkey rsa:3702 -keyout ~/.vnc/x509_private.pem -out ~/.vnc/x509_cert.pem -days 3650 -subj '/CN=www.mydom.com/O=My Company Name LTD./C=US'
 
+# no need to modify .bashrc
 cat << EOF >> ~/.bashrc
-echo "sourcing ~/.bashrc"
+EOF
+
+# modify .profile
+cat << EOF >> ~/.profile
+echo "sourcing ~/.profile"
 source /opt/ros/humble/setup.bash
-if [ -f ~/work/ws/zephyr/scripts/west_commands/completion/west-completion.bash ]; then
+if [ -f $HOME/work/ws/zephyr/scripts/west_commands/completion/west-completion.bash ]; then
   echo -e "\\tsourcing west completion"
-  source ~/work/ws/zephyr/scripts/west_commands/completion/west-completion.bash
+  source $HOME/work/ws/zephyr/scripts/west_commands/completion/west-completion.bash
 fi
-if [ -f ~/work/gazebo/install/setup.sh ]; then
-  source ~/work/gazebo/install/setup.sh
+if [ -f $HOME/work/gazebo/install/setup.sh ]; then
+  source $HOME/work/gazebo/install/setup.sh
   echo -e "\\tgazebo built, sourcing"
 fi
-if [ -f ~/work/cranium/install/setup.sh ]; then
-  source ~/work/cranium/install/setup.sh
+if [ -f $HOME/work/cranium/install/setup.sh ]; then
+  source $HOME/work/cranium/install/setup.sh
   echo -e "\\tdream built, sourcing"
 fi
-if [ -f ~/work/ws/cerebri/install/setup.sh ]; then
-  source ~/work/ws/cerebri/install/setup.sh
+if [ -f $HOME/work/ws/cerebri/install/setup.sh ]; then
+  source $HOME/work/ws/cerebri/install/setup.sh
   echo -e "\\tcerebri built, sourcing"
 fi
-if [ -d "~/bin" ] ; then
-  PATH="~/bin/:\$PATH"
+if [ -d $HOME/bin ] ; then
+  PATH="$HOME/bin/:\$PATH"
 fi
 if [ -d "/opt/poetry/bin" ] ; then
   PATH="/opt/poetry/bin:\$PATH"
 fi
 source /usr/share/colcon_cd/function/colcon_cd.sh
 source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
-EOF
-
-cat << EOF >> ~/.profile
-echo "sourcing ~/.profile"
 export SHELL=/bin/bash
 export GEN_CERT=yes
 export POETRY_VIRTUALENVS_PATH=~/work/.poetry
@@ -103,14 +104,17 @@ export CMAKE_EXPORT_COMPILE_COMMANDS=ON
 export CCACHE_TEMPDIR=/tmp/ccache
 export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 export PYTHONWARNINGS=ignore:::setuptools.installer,ignore:::setuptools.command.install,ignore:::setuptools.command.easy_install
+eval \`keychain -q --eval --agents "gpg,ssh"\`
 EOF
 
+# add gdb fixes
 cat << EOF >> ~/.gdbinit
 define hook-stop
   refresh
 end
 EOF
 
+# add script to unlock ssh/gpg keys
 cat << EOF > ~/bin/unlock
 #!/bin/bash
 set -e
@@ -118,16 +122,21 @@ eval \`keychain --eval --agents "gpg,ssh" \$GPG_KEYS \$SSH_KEYS\`
 EOF
 chmod +x ~/bin/unlock
 
+# add script to build/run cyecca
 cat << EOF > ~/bin/cyecca
 #!/bin/bash
 set -e
 set -x
+if [ ! -d "\$HOME/work/cyecca" ] ; then
+  git clone git@github.com:cognipilot/cyecca ~/work/cyecca
+fi
 cd ~/work/cyecca
 /opt/poetry/bin/poetry install
 /opt/poetry/bin/poetry run jupyter lab
 EOF
 chmod +x ~/bin/cyecca
 
+# add script to build mrbuggy3_sitl
 cat << EOF > ~/bin/build_mrbuggy3_sitl
 #!/bin/bash
 set -e
@@ -135,7 +144,9 @@ set -x
 
 echo "Setup Helmet for MRBuggy3 SITL"
 cd ~/work
-git clone git@github.com:CogniPilot/helmet
+if [ ! -d "\$HOME/work/helmet" ] ; then
+  git clone git@github.com:CogniPilot/helmet
+fi
 vcs import < helmet/dream/base.yaml
 vcs import < helmet/dream/mrbuggy3.yaml
 
