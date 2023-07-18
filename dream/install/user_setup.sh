@@ -68,7 +68,6 @@ EOF
 
 # modify .profile
 cat << EOF >> ~/.profile
-echo "sourcing ~/.profile"
 source /opt/ros/humble/setup.bash
 if [ -f $HOME/work/ws/zephyr/scripts/west_commands/completion/west-completion.bash ]; then
   echo -e "\\tsourcing west completion"
