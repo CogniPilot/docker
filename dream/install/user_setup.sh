@@ -64,35 +64,36 @@ mkdir ~/.vnc && echo "$VNCPASSWD" | /opt/TurboVNC/bin/vncpasswd -f > ~/.vnc/pass
 
 # no need to modify .bashrc
 cat << EOF >> ~/.bashrc
+#echo sourcing ros
+source /opt/ros/humble/setup.bash
+if [ -f \$HOME/work/ws/zephyr/scripts/west_commands/completion/west-completion.bash ]; then
+  #echo sourcing west completion
+  source \$HOME/work/ws/zephyr/scripts/west_commands/completion/west-completion.bash
+fi
+if [ -f \$HOME/work/gazebo/install/setup.sh ]; then
+  source \$HOME/work/gazebo/install/setup.sh
+  #echo gazebo built, sourcing
+fi
+if [ -f \$HOME/work/cranium/install/setup.sh ]; then
+  #echo dream built, sourcing
+  source \$HOME/work/cranium/install/setup.sh
+fi
+if [ -f \$HOME/work/ws/cerebri/install/setup.sh ]; then
+  #echo cerebri built, sourcing
+  source \$HOME/work/ws/cerebri/install/setup.sh
+fi
+source /usr/share/colcon_cd/function/colcon_cd.sh
+source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
 EOF
 
 # modify .profile
 cat << EOF >> ~/.profile
-source /opt/ros/humble/setup.bash
-if [ -f $HOME/work/ws/zephyr/scripts/west_commands/completion/west-completion.bash ]; then
-  echo sourcing west completion
-  source $HOME/work/ws/zephyr/scripts/west_commands/completion/west-completion.bash
-fi
-if [ -f $HOME/work/gazebo/install/setup.sh ]; then
-  source $HOME/work/gazebo/install/setup.sh
-  echo gazebo built, sourcing
-fi
-if [ -f $HOME/work/cranium/install/setup.sh ]; then
-  source $HOME/work/cranium/install/setup.sh
-  echo dream built, sourcing
-fi
-if [ -f $HOME/work/ws/cerebri/install/setup.sh ]; then
-  source $HOME/work/ws/cerebri/install/setup.sh
-  echo cerebri built, sourcing
-fi
-if [ -d $HOME/bin ] ; then
-  PATH="$HOME/bin/:\$PATH"
+if [ -d \$HOME/bin ] ; then
+  PATH="\$HOME/bin/:\$PATH"
 fi
 if [ -d /opt/poetry/bin ] ; then
   PATH="/opt/poetry/bin:\$PATH"
 fi
-source /usr/share/colcon_cd/function/colcon_cd.sh
-source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
 export SHELL=/bin/bash
 export GEN_CERT=yes
 export POETRY_VIRTUALENVS_PATH=~/work/.poetry
