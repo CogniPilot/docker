@@ -46,16 +46,12 @@ def execute(args):
         cmd += ['-c', args.cmd]
     run(cmd)
 
-def cyecca(args):
-    cmd = 'docker compose exec -u user dream cyecca'
-    run(cmd)
-
 parser = ArgumentParser('dream')
 parser.set_defaults(func=parser.usage)
 
 subparsers = parser.add_subparsers(help='command')
 
-for func in [build, start, stop, pull, push, logs, cyecca]:
+for func in [build, start, stop, pull, push, logs]:
     name = func.__name__
     sp = subparsers.add_parser(name, help=f'docker {name:s}')
     sp.set_defaults(func=func)

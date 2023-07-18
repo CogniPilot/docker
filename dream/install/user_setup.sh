@@ -89,7 +89,10 @@ if [ -d "/opt/poetry/bin" ] ; then
 fi
 source /usr/share/colcon_cd/function/colcon_cd.sh
 source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
+EOF
 
+cat << EOF >> ~/.profile
+echo "sourcing ~/.profile"
 export SHELL=/bin/bash
 export GEN_CERT=yes
 export POETRY_VIRTUALENVS_PATH=~/work/.poetry
@@ -102,10 +105,6 @@ export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 export PYTHONWARNINGS=ignore:::setuptools.installer,ignore:::setuptools.command.install,ignore:::setuptools.command.easy_install
 EOF
 
-cat << EOF >> ~/.profile
-echo "sourcing ~/.profile"
-EOF
-
 cat << EOF >> ~/.gdbinit
 define hook-stop
   refresh
@@ -115,7 +114,6 @@ EOF
 cat << EOF > ~/bin/unlock
 #!/bin/bash
 set -e
-set -x
 eval \`keychain --eval --agents "gpg,ssh" \$GPG_KEYS \$SSH_KEYS\`
 EOF
 chmod +x ~/bin/unlock
