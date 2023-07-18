@@ -94,8 +94,8 @@ fi
 if [ -d /opt/poetry/bin ] ; then
   PATH="/opt/poetry/bin:\$PATH"
 fi
-export SHELL=/bin/bash
 export GEN_CERT=yes
+export SHELL=/bin/bash
 export POETRY_VIRTUALENVS_PATH=~/work/.poetry
 export XDG_RUNTIME_DIR=/tmp/runtime-user
 export NO_AT_BRIDGE=1

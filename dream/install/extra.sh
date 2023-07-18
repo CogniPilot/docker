@@ -22,6 +22,7 @@ sudo DEBIAN_FRONTEND=noninteractive  apt-get install --no-install-recommends -y 
 	meld \
 	menu \
 	mesa-utils \
+	nodejs \
 	openbox \
 	python3-jinja2 \
 	python3-numpy \
