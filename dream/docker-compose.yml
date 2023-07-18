@@ -5,20 +5,12 @@ volumes:
     gz_config:
     jupyter_config:
 
-networks:
-  static_network:
-    ipam:
-        config:
-          - subnet: 172.20.0.0/16
-
 services:
 
   dream:
-    networks:
-      static_network:
-        ipv4_address: 172.20.128.2
     ports:
-      - 8888:8888
+      - 127.0.0.1:8888:8888
+      - 127.0.0.1:8000:8000
     environment:
       - SSH_KEYS=
       - GPG_KEYS=

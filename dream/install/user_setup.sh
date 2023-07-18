@@ -130,8 +130,8 @@ if [ ! -d "\$HOME/work/cyecca" ] ; then
   git clone git@github.com:cognipilot/cyecca ~/work/cyecca
 fi
 cd ~/work/cyecca
-/opt/poetry/bin/poetry install
-/opt/poetry/bin/poetry run jupyter lab
+poetry install
+poetry run jupyter lab
 EOF
 chmod +x ~/bin/cyecca
 
@@ -162,3 +162,20 @@ west build app/mrbuggy3/ -b native_posix -t install -p
 . ./install/setup.sh
 EOF
 chmod +x ~/bin/build_mrbuggy3_sitl
+
+# add script to build and serve docs
+cat << EOF > ~/bin/docs
+#!/bin/bash
+set -e
+set -x
+
+echo "Build CogniPilot Docs"
+cd ~/work
+if [ ! -d "\$HOME/work/docs" ] ; then
+  git clone https://github.com/CogniPilot/cognipilot_docs ~/work/docs
+fi
+cd ~/work/docs
+poetry install --no-root
+poetry run mkdocs serve -a 0.0.0.0:8000
+EOF
+chmod +x ~/bin/docs
