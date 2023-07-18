@@ -63,36 +63,36 @@ mkdir ~/.vnc && echo "$VNCPASSWD" | /opt/TurboVNC/bin/vncpasswd -f > ~/.vnc/pass
   openssl req -x509 -nodes -newkey rsa:3702 -keyout ~/.vnc/x509_private.pem -out ~/.vnc/x509_cert.pem -days 3650 -subj '/CN=www.mydom.com/O=My Company Name LTD./C=US'
 
 cat << EOF >> ~/.bashrc
+echo "sourcing ~/.bashrc"
 source /opt/ros/humble/setup.bash
 if [ -f ~/work/ws/zephyr/scripts/west_commands/completion/west-completion.bash ]; then
-  echo "sourcing west completion"
+  echo -e "\\tsourcing west completion"
   source ~/work/ws/zephyr/scripts/west_commands/completion/west-completion.bash
 fi
 if [ -f ~/work/gazebo/install/setup.sh ]; then
   source ~/work/gazebo/install/setup.sh
-  echo "gazebo built, sourcing"
+  echo -e "\\tgazebo built, sourcing"
 fi
 if [ -f ~/work/cranium/install/setup.sh ]; then
   source ~/work/cranium/install/setup.sh
-  echo "dream built, sourcing"
+  echo -e "\\tdream built, sourcing"
 fi
 if [ -f ~/work/ws/cerebri/install/setup.sh ]; then
   source ~/work/ws/cerebri/install/setup.sh
-  echo "cerebri built, sourcing"
+  echo -e "\\tcerebri built, sourcing"
 fi
 if [ -d "~/bin" ] ; then
   PATH="~/bin/:\$PATH"
 fi
 if [ -d "/opt/poetry/bin" ] ; then
-  PATH="/opt/poetry/bin/:\$PATH"
+  PATH="/opt/poetry/bin:\$PATH"
 fi
 source /usr/share/colcon_cd/function/colcon_cd.sh
 source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
-EOF
 
-cat << EOF >> ~/.profile
+export SHELL=/bin/bash
 export GEN_CERT=yes
-export POETRY_CACHE_DIR=~/work/.cache/pypoetry
+export POETRY_VIRTUALENVS_PATH=~/work/.poetry
 export XDG_RUNTIME_DIR=/tmp/runtime-user
 export NO_AT_BRIDGE=1
 export ROS_DOMAIN_ID=7
@@ -100,7 +100,10 @@ export CMAKE_EXPORT_COMPILE_COMMANDS=ON
 export CCACHE_TEMPDIR=/tmp/ccache
 export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 export PYTHONWARNINGS=ignore:::setuptools.installer,ignore:::setuptools.command.install,ignore:::setuptools.command.easy_install
-eval \`keychain --eval --agents "gpg,ssh" \$GPG_KEYS \$SSH_KEYS\`
+EOF
+
+cat << EOF >> ~/.profile
+echo "sourcing ~/.profile"
 EOF
 
 cat << EOF >> ~/.gdbinit
@@ -109,3 +112,20 @@ define hook-stop
 end
 EOF
 
+cat << EOF > ~/bin/unlock
+#!/bin/bash
+set -e
+set -x
+eval \`keychain --eval --agents "gpg,ssh" \$GPG_KEYS \$SSH_KEYS\`
+EOF
+chmod +x ~/bin/unlock
+
+cat << EOF > ~/bin/cyecca
+#!/bin/bash
+set -e
+set -x
+cd ~/work/cyecca
+/opt/poetry/bin/poetry install
+/opt/poetry/bin/poetry run jupyter lab
+EOF
+chmod +x ~/bin/cyecca

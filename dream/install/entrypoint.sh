@@ -25,6 +25,7 @@ fi
 groupmod --gid "$HOST_GID" user
 usermod --uid "$HOST_UID" user
 
+read
+
 # Drop privileges and execute next container command, or 'bash' if not specified.
-echo unlocking $SSH_KEYS, $GPG_KEYS
-sudo -u user -H -i --preserve-env=GPG_KEYS,SSH_KEYS -- "$@"
+#sudo -u user -H -i --preserve-env=HOST_GUI,HOST_UID,SSH_KEYS,GPG_KEYS -- "$@"

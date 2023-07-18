@@ -1,0 +1,74 @@
+#!/usr/bin/env python3
+
+from argparse import ArgumentParser
+import subprocess
+import webbrowser
+import os
+
+env = {
+    'HOST_UID': subprocess.check_output(["id", "-u"]).strip(),
+    'HOST_GID': subprocess.check_output(["id", "-g"]).strip()
+}
+
+def run(cmd):
+    p = subprocess.Popen(cmd,
+        universal_newlines=True)
+    p.wait()
+
+def build(args):
+    cmd = ['docker', 'compose', 'build']
+    run(cmd)
+
+def pull(args):
+    cmd = ['docker', 'compose', 'pull']
+    run(cmd)
+
+def push(args):
+    cmd = ['docker', 'compose', 'push']
+    run(cmd)
+
+def start(args):
+    cmd = ['docker', 'compose', 'up', 'dream', '-d']
+    run(cmd)
+
+def stop(args):
+    cmd = ['docker', 'compose', 'stop', 'dream']
+    run(cmd)
+
+def logs(args):
+    cmd = ['docker', 'compose', 'logs', 'dream']
+    run(cmd)
+
+def execute(args):
+    cmd = ['docker', 'compose', 'exec', '-u', 'user', 'dream',
+    'bash', '-l']
+    if args.cmd is not None:
+        cmd += ['-c', args.cmd]
+    run(cmd)
+
+def cyecca(args):
+    cmd = 'docker compose exec -u user dream cyecca'
+    run(cmd)
+
+parser = ArgumentParser('dream')
+parser.set_defaults(func=parser.usage)
+
+subparsers = parser.add_subparsers(help='command')
+
+for func in [build, start, stop, pull, push, logs, cyecca]:
+    name = func.__name__
+    sp = subparsers.add_parser(name, help=f'docker {name:s}')
+    sp.set_defaults(func=func)
+
+sp = subparsers.add_parser('exec', help='execute a command')
+sp.add_argument('cmd', help='cmd', nargs='?', default=None)
+sp.set_defaults(func=execute)
+
+args = parser.parse_args()
+
+if args.func is None:
+    parser.print_usage()
+else:
+    args.func(args)
+
+# vi: ft=python ts=4 sw=4 et
