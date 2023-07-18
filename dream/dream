@@ -39,6 +39,10 @@ def logs(args):
     cmd = ['docker', 'compose', 'logs', 'dream']
     run(cmd)
 
+def clean(args):
+    run(['rm', '-rf', './work/'])
+    run(['git', 'checkout', './work/'])
+
 def execute(args):
     cmd = ['docker', 'compose', 'exec', '-u', 'user', 'dream',
     'bash', '-l']
@@ -51,13 +55,25 @@ parser.set_defaults(func=parser.usage)
 
 subparsers = parser.add_subparsers(help='command')
 
-for func in [build, start, stop, pull, push, logs]:
+func_list = [build, start, stop, pull, push, logs, clean]
+
+help_dict = {
+    build: 'build the docker image',
+    start: 'start the docker container',
+    stop: 'stop the docker container',
+    pull: 'pull the docker image from remote repository',
+    push: 'push the docker image to fremote repository',
+    logs: 'show container logs',
+    clean: 'clean work directory',
+}
+
+for func in func_list:
     name = func.__name__
-    sp = subparsers.add_parser(name, help=f'docker {name:s}')
+    sp = subparsers.add_parser(name, help=help_dict[func])
     sp.set_defaults(func=func)
 
 sp = subparsers.add_parser('exec', help='execute a command')
-sp.add_argument('cmd', help='cmd', nargs='?', default=None)
+sp.add_argument('cmd', help='command to run on container', nargs='?', default=None)
 sp.set_defaults(func=execute)
 
 args = parser.parse_args()

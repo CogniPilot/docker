@@ -127,3 +127,28 @@ cd ~/work/cyecca
 /opt/poetry/bin/poetry run jupyter lab
 EOF
 chmod +x ~/bin/cyecca
+
+cat << EOF > ~/bin/build_mrbuggy3_sitl
+#!/bin/bash
+set -e
+set -x
+
+echo "Setup Helmet for MRBuggy3 SITL"
+cd ~/work
+git clone git@github.com:CogniPilot/helmet
+vcs import < helmet/dream/base.yaml
+vcs import < helmet/dream/mrbuggy3.yaml
+
+echo "Build Cranium"
+cd ~/work/cranium
+colcon build --symlink-install
+. ./install/setup.sh
+
+echo "Build Cerebri for MRBuggy3 SITL"
+cd ~/work/ws/cerebri
+west init -l .
+west update
+west build app/mrbuggy3/ -b native_posix -t install -p
+. ./install/setup.sh
+EOF
+chmod +x ~/bin/build_mrbuggy3_sitl
