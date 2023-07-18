@@ -12,7 +12,7 @@ services:
       - 127.0.0.1:8888:8888
       - 127.0.0.1:8000:8000
     environment:
-      - SSH_KEYS=
+      - SSH_KEYS=id_rsa
       - GPG_KEYS=
       - HOST_UID=${HOST_UID}
       - HOST_GID=${HOST_GID}
