@@ -3,15 +3,39 @@
 from argparse import ArgumentParser
 import subprocess
 import os
+import sys
+from pathlib import Path
 
-env = {
-    'HOST_UID': subprocess.check_output(["id", "-u"]).strip(),
-    'HOST_GID': subprocess.check_output(["id", "-g"]).strip()
-}
+script_directory = Path(os.path.dirname(os.path.abspath(sys.argv[0])))
+
+my_env = os.environ
+my_env['HOST_UID'] = subprocess.check_output(["id", "-u"]).strip().decode()
+my_env['HOST_GID'] = subprocess.check_output(["id", "-g"]).strip().decode()
+
+home = Path(my_env['HOME'])
+
+def create_bind_mounts():
+    bind_mounts = [
+        script_directory / 'work',
+        Path('/tmp/.X11-unix'),
+        home / '.gnupg',
+        home / '.ssh',
+    ]
+    files = [
+        home / '.gitconfig'
+    ]
+    for bind_mount in bind_mounts:
+        if not bind_mount.exists():
+            print('bind_mount:', bind_mount, 'does not exist, creating directory')
+            bind_mount.mkdir(parents=True, exist_ok=True)
+    for file in files:
+        if not file.exists():
+            print('bind_mount:', file, 'does not exist, creating file')
+            file.touch()
 
 def run(cmd):
     p = subprocess.Popen(cmd,
-        universal_newlines=True)
+        universal_newlines=True, env=my_env)
     p.wait()
 
 def build(args):
@@ -27,6 +51,7 @@ def push(args):
     run(cmd)
 
 def start(args):
+    create_bind_mounts()
     cmd = ['docker', 'compose', 'up', 'dream', '-d']
     run(cmd)
 
@@ -48,7 +73,6 @@ def execute(args):
     '/bin/bash', '-i']
     if args.cmd is not None:
         cmd += ['-c', args.cmd]
-    print('cmd: ', cmd)
     run(cmd)
 
 parser = ArgumentParser('dream')

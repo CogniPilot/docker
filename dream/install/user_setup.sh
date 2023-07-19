@@ -117,6 +117,7 @@ chmod +x ~/bin/unlock
 # add script to build/run cyecca
 cat << EOF > ~/bin/cyecca
 #!/bin/bash
+set -e
 if [ ! -d "\$HOME/work/cyecca" ] ; then
   git clone git@github.com:cognipilot/cyecca ~/work/cyecca
 fi
@@ -129,6 +130,7 @@ chmod +x ~/bin/cyecca
 # add script to build mrbuggy3_sitl
 cat << EOF > ~/bin/build_mrbuggy3_sitl
 #!/bin/bash
+set -e
 echo "Setup Helmet for MRBuggy3 SITL"
 cd ~/work
 if [ ! -d "\$HOME/work/helmet" ] ; then
@@ -154,6 +156,8 @@ chmod +x ~/bin/build_mrbuggy3_sitl
 # add script to build and serve docs
 cat << EOF > ~/bin/docs
 #!/bin/bash
+set -e
+set -x
 echo "Build CogniPilot Docs"
 cd ~/work
 if [ ! -d "\$HOME/work/docs" ] ; then

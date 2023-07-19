@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -e
+set -x
 
 if [[ -z "$HOST_UID" ]]; then
     echo "ERROR: please set HOST_UID" >&2
@@ -11,8 +12,6 @@ if [[ -z "$HOST_GID" ]]; then
     exit 1
 fi
 
-echo running as user: $HOST_UID:$HOST_GID
-
 if [ "$RUN_VNC" = true ] ; then
   /opt/TurboVNC/bin/vncserver -geometry 1920x1080 -name dream -xstartup /bin/openbox-session :20
 fi
@@ -21,11 +20,11 @@ if [ "$RUN_ZETH" = true ] ; then
   cd /opt/zeth &&  ./net-setup.sh start
 fi
 
-# Use this code if you want to modify an existing user account:
-groupmod --gid "$HOST_GID" user
+echo running as user: $HOST_UID:$HOST_GID
 usermod --uid "$HOST_UID" user
+groupmod --gid "$HOST_GID" user
 
-read
+sudo chown -R user:user /home/user
 
 # Drop privileges and execute next container command, or 'bash' if not specified.
-#sudo -u user -H -i --preserve-env=HOST_GUI,HOST_UID,SSH_KEYS,GPG_KEYS -- "$@"
+sudo -u user -H -i --preserve-env=HOST_GID,HOST_UID,SSH_KEYS,GPG_KEYS -- "$@"

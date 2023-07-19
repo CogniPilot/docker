@@ -1,6 +1,10 @@
 FROM ubuntu:22.04
 LABEL maintainer="James Goppert <james.goppert@gmail.com>"
 
+#####################################################################
+# Install Packages
+#####################################################################
+
 # environment
 ENV PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
 ENV XDG_RUNTIME_DIR=/tmp/runtime-docker
@@ -104,7 +108,13 @@ RUN sudo rm /etc/apt/apt.conf.d/docker-clean
 # create XDG runtime dir
 RUN mkdir /tmp/runtime-docker && sudo chmod 700 /tmp/runtime-docker
 
-# create a user for running the container
+# install jupyter server config
+COPY install/jupyter_server_config.py /etc/jupyter/
+
+#####################################################################
+# Setup User
+#####################################################################
+
 ARG UID_USER=1000
 RUN sudo useradd --create-home -l -u $UID_USER -G sudo,plugdev,render,input,vglusers,video,dialout user && \
  echo user: $UID_USER && \
@@ -116,26 +126,45 @@ ARG VNCPASSWD=cogni<3
 COPY install/user_setup.sh /tmp/install/user_setup.sh
 RUN /tmp/install/user_setup.sh $VNCPASSWD && /docker_clean.sh
 
-# create setting directory for gazebo
-VOLUME /home/user/.gz
-RUN mkdir -p /home/user/.gz
-RUN chown -R user:user /home/user/.gz
+#####################################################################
+# Setup Volumes
+#####################################################################
 
 # create ws, this is where the source code will be mounted
 VOLUME /home/user/work
 WORKDIR /home/user/work
 RUN mkdir -p /home/user/work
 
-# setup entry point
-COPY install/entrypoint.sh /
-RUN sudo chsh -s /bin/bash user
+# create setting directory for gazebo
+VOLUME /home/user/.gz
+RUN mkdir -p /home/user/.gz
 
 # create setting directory for jupyter
 VOLUME /home/user/.jupyter
 RUN mkdir -p /home/user/.jupyter
-RUN chown -R user:user /home/user/.jupyter
 
-COPY install/jupyter_server_config.py /etc/jupyter/
+# create .X11-unix directory
+VOLUME /tmp/.X11-unix
+RUN mkdir -p /tmp/.X11-unix
+
+# create .gnupg directory
+VOLUME /home/user/.gnupg
+RUN mkdir -p /home/user/.gnupg
+
+# create .ssh directory
+VOLUME /home/user/.ssh
+RUN mkdir -p /home/user/.ssh
+
+# create .gitconfig file
+VOLUME /home/user/.gitconfig
+
+#####################################################################
+# Entry Point
+#####################################################################
+
+# setup entry point
+COPY install/entrypoint.sh /
+RUN sudo chsh -s /bin/bash user
 
 USER root
 
@@ -144,6 +173,14 @@ ENTRYPOINT ["/entrypoint.sh"]
 
 LABEL org.opencontainers.image.source = "https://github.com/CogniPilot/docker"
 
+#####################################################################
+# Exposed Ports
+#####################################################################
+
+# expose jupyterlab port
 EXPOSE 8888
+
+# expose mkdocs port
+EXPOSE 8000
 
 # vim: set et fenc=utf-8 ff=unix ft=dockerfile sts=0 sw=2 ts=2 :
