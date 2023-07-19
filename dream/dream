@@ -45,9 +45,10 @@ def clean(args):
 
 def execute(args):
     cmd = ['docker', 'compose', 'exec', '-u', 'user', 'dream',
-    '/bin/bash', '-l']
+    '/bin/bash', '-i']
     if args.cmd is not None:
         cmd += ['-c', args.cmd]
+    print('cmd: ', cmd)
     run(cmd)
 
 parser = ArgumentParser('dream')

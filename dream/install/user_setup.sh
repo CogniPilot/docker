@@ -64,7 +64,7 @@ mkdir ~/.vnc && echo "$VNCPASSWD" | /opt/TurboVNC/bin/vncpasswd -f > ~/.vnc/pass
 
 # no need to modify .bashrc
 cat << EOF >> ~/.bashrc
-#echo sourcing ros
+echo sourcing ~/.bashrc
 source /opt/ros/humble/setup.bash
 if [ -f \$HOME/work/ws/zephyr/scripts/west_commands/completion/west-completion.bash ]; then
   #echo sourcing west completion
@@ -84,13 +84,6 @@ if [ -f \$HOME/work/ws/cerebri/install/setup.sh ]; then
 fi
 source /usr/share/colcon_cd/function/colcon_cd.sh
 source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
-EOF
-
-# modify .profile
-cat << EOF >> ~/.profile
-if [ -d \$HOME/bin ] ; then
-  PATH="\$HOME/bin/:\$PATH"
-fi
 if [ -d /opt/poetry/bin ] ; then
   PATH="/opt/poetry/bin:\$PATH"
 fi
@@ -117,7 +110,6 @@ EOF
 # add script to unlock ssh/gpg keys
 cat << EOF > ~/bin/unlock
 #!/bin/bash
-set -e
 eval \`keychain --eval --agents "gpg,ssh" \$GPG_KEYS \$SSH_KEYS\`
 EOF
 chmod +x ~/bin/unlock
@@ -125,8 +117,6 @@ chmod +x ~/bin/unlock
 # add script to build/run cyecca
 cat << EOF > ~/bin/cyecca
 #!/bin/bash
-set -e
-set -x
 if [ ! -d "\$HOME/work/cyecca" ] ; then
   git clone git@github.com:cognipilot/cyecca ~/work/cyecca
 fi
@@ -139,9 +129,6 @@ chmod +x ~/bin/cyecca
 # add script to build mrbuggy3_sitl
 cat << EOF > ~/bin/build_mrbuggy3_sitl
 #!/bin/bash
-set -e
-set -x
-
 echo "Setup Helmet for MRBuggy3 SITL"
 cd ~/work
 if [ ! -d "\$HOME/work/helmet" ] ; then
@@ -167,9 +154,6 @@ chmod +x ~/bin/build_mrbuggy3_sitl
 # add script to build and serve docs
 cat << EOF > ~/bin/docs
 #!/bin/bash
-set -e
-set -x
-
 echo "Build CogniPilot Docs"
 cd ~/work
 if [ ! -d "\$HOME/work/docs" ] ; then
