@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 set -e
-set -x
 
 if [[ -z "$HOST_UID" ]]; then
     echo "ERROR: please set HOST_UID" >&2

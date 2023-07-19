@@ -1,6 +1,5 @@
 #!/bin/bash
 set -e
-set -x
 
 VNCPASSWD="$1"
 ZSDK_VERSION="0.16.1"
@@ -99,72 +98,3 @@ export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 export PYTHONWARNINGS=ignore:::setuptools.installer,ignore:::setuptools.command.install,ignore:::setuptools.command.easy_install
 eval \`keychain -q --eval --agents "gpg,ssh"\`
 EOF
-
-# add gdb fixes
-cat << EOF >> ~/.gdbinit
-define hook-stop
-  refresh
-end
-EOF
-
-# add script to unlock ssh/gpg keys
-cat << EOF > ~/bin/unlock
-#!/bin/bash
-eval \`keychain --eval --agents "gpg,ssh" \$GPG_KEYS \$SSH_KEYS\`
-EOF
-chmod +x ~/bin/unlock
-
-# add script to build/run cyecca
-cat << EOF > ~/bin/cyecca
-#!/bin/bash
-set -e
-if [ ! -d "\$HOME/work/cyecca" ] ; then
-  git clone git@github.com:cognipilot/cyecca ~/work/cyecca
-fi
-cd ~/work/cyecca
-poetry install
-poetry run jupyter lab
-EOF
-chmod +x ~/bin/cyecca
-
-# add script to build mrbuggy3_sitl
-cat << EOF > ~/bin/build_mrbuggy3_sitl
-#!/bin/bash
-set -e
-echo "Setup Helmet for MRBuggy3 SITL"
-cd ~/work
-if [ ! -d "\$HOME/work/helmet" ] ; then
-  git clone git@github.com:CogniPilot/helmet
-fi
-vcs import < helmet/dream/base.yaml
-vcs import < helmet/dream/mrbuggy3.yaml
-
-echo "Build Cranium"
-cd ~/work/cranium
-colcon build --symlink-install
-. ./install/setup.sh
-
-echo "Build Cerebri for MRBuggy3 SITL"
-cd ~/work/ws/cerebri
-west init -l .
-west update
-west build app/mrbuggy3/ -b native_posix -t install -p
-. ./install/setup.sh
-EOF
-chmod +x ~/bin/build_mrbuggy3_sitl
-
-# add script to build and serve docs
-cat << EOF > ~/bin/docs
-#!/bin/bash
-set -e
-set -x
-echo "Build CogniPilot Docs"
-cd ~/work
-if [ ! -d "\$HOME/work/docs" ] ; then
-  git clone git@github.com:CogniPilot/cognipilot_docs ~/work/docs
-fi
-cd ~/work/docs
-poetry install --no-root
-poetry run mkdocs serve -a 0.0.0.0:8000
-EOF
-chmod +x ~/bin/docs

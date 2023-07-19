@@ -1,0 +1,23 @@
+#!/bin/bash
+set -e
+echo Setup Helmet for MRBuggy3 SITL
+cd ~/work
+if [ ! -d ~/work/helmet ] ; then
+  git clone git@github.com:CogniPilot/helmet
+fi
+vcs import < helmet/dream/base.yaml
+vcs import < helmet/dream/mrbuggy3.yaml
+
+echo Build Cranium
+cd ~/work/cranium
+colcon build --symlink-install
+. ./install/setup.sh
+
+echo Build Cerebri for MRBuggy3 SITL
+cd ~/work/ws/cerebri
+if [ ! -d ~/work/ws/.west ] ; then
+  west init -l .
+fi
+west update
+west build app/mrbuggy3/ -b native_posix -t install -p
+. ./install/setup.sh

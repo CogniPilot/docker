@@ -126,6 +126,17 @@ ARG VNCPASSWD=cogni<3
 COPY install/user_setup.sh /tmp/install/user_setup.sh
 RUN /tmp/install/user_setup.sh $VNCPASSWD && /docker_clean.sh
 
+# install gdbinit
+COPY install/gdbinit /home/user/.gdbinit
+
+#####################################################################
+# Setup Scripts
+#####################################################################
+COPY install/scripts/build_mrbuggy3_sitl /home/user/bin
+COPY install/scripts/cyecca /home/user/bin
+COPY install/scripts/docs /home/user/bin
+COPY install/scripts/unlock /home/user/bin
+
 #####################################################################
 # Setup Volumes
 #####################################################################
