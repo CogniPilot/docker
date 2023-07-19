@@ -173,7 +173,7 @@ set -x
 echo "Build CogniPilot Docs"
 cd ~/work
 if [ ! -d "\$HOME/work/docs" ] ; then
-  git clone https://github.com/CogniPilot/cognipilot_docs ~/work/docs
+  git clone git@github.com:CogniPilot/cognipilot_docs ~/work/docs
 fi
 cd ~/work/docs
 poetry install --no-root
