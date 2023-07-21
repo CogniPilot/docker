@@ -54,7 +54,13 @@ sudo rosdep init
 # create symlink to west in ~/bin
 mkdir -p ~/bin
 cd ~/bin
-ln -s /opt/.venv-zephyr/bin/west .
+cat << EOF >> ~/bin/west
+#!/bin/bash
+set -e
+source /opt/.venv-zephyr/bin/activate
+/opt/.venv-zephyr/bin/west "\$@"
+EOF
+chmod +x ~/bin/west
 
 # setup vnc
 mkdir ~/.vnc && echo "$VNCPASSWD" | /opt/TurboVNC/bin/vncpasswd -f > ~/.vnc/passwd && \
