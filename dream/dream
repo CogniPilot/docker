@@ -76,21 +76,10 @@ services:
     environment:
       - SSH_KEYS={ssh_keys:s}
       - GPG_KEYS={gpg_keys:s}
-
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: {gpu_count:d}
-              capabilities: [gpu]
 """
 
 def config(args):
     config_path = script_dir / 'docker-compose.override.yml'
-    
-    # nvidia gpu
-    gpu_count = input('Enable nvidia? y/[n]: ').lower().strip() == 'y'
 
     ## ssh keys
     unlock_ssh = input('Unlock ssh keys? y/[n]: ').lower().strip() == 'y'
@@ -118,8 +107,22 @@ def config(args):
         else:
             gpg_keys = ret
 
+    # nvidia gpu
+    nvidia_enabled = input('Enable nvidia? y/[n]: ').lower().strip() == 'y'
+
     with open(config_path, 'w') as f:
         f.write(CONFIG_TEMPLATE.format(**locals()))
+
+        if nvidia_enabled:
+            f.write("""
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+""")
 
 def execute(args):
     cmd = ['docker', 'compose', 'exec', '-u', 'user', 'dream',
