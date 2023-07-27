@@ -4,6 +4,7 @@ volumes:
 
     gz_config:
     jupyter_config:
+    rviz2_config:
 
 services:
 
@@ -36,6 +37,7 @@ services:
     volumes:
       - gz_config:/home/user/.gz
       - jupyter_config:/home/user/.jupyter
+      - rviz2_config:/home/user/.rviz2
       - ./work:/home/user/work
       - /tmp/.X11-unix:/tmp/.X11-unix
       - $HOME/.gnupg:/home/user/.gnupg
