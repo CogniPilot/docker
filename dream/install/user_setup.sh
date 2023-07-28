@@ -95,6 +95,7 @@ fi
 export GEN_CERT=yes
 export SHELL=/bin/bash
 export POETRY_VIRTUALENVS_PATH=~/work/.poetry
+export POETRY_VIRTUALENVS_OPTIONS_SYSTEM_SITE_PACKAGES=true
 export XDG_RUNTIME_DIR=/tmp/runtime-user
 export NO_AT_BRIDGE=1
 export ROS_DOMAIN_ID=7
