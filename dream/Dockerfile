@@ -23,7 +23,6 @@ COPY install/docker_clean.sh /docker_clean.sh
 
 # Install base packages
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y update && \
-	apt-get -y upgrade && \
 	apt-get install --no-install-recommends -y \
 		sudo \
 		locales \
@@ -81,7 +80,6 @@ COPY install/virtualgl_3.0.91_amd64.deb /tmp
 RUN cd /tmp && \
   wget https://sourceforge.net/projects/turbovnc/files/3.0.2/turbovnc_3.0.2_amd64.deb  && \
   sudo apt-get -y update && \
-  sudo apt-get -y upgrade && \
   sudo DEBIAN_FRONTEND=noninteractive  apt-get install --no-install-recommends -y \
     ./virtualgl_3.0.91_amd64.deb \
     ./turbovnc_3.0.2_amd64.deb && \

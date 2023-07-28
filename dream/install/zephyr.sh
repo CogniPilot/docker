@@ -8,7 +8,6 @@ ZSDK_VERSION="0.16.1"
 # install required packages
 # https://docs.zephyrproject.org/latest/develop/getting_started/index.html
 sudo apt-get -y update
-sudo apt-get -y upgrade
 sudo DEBIAN_FRONTEND=noninteractive  apt-get install --no-install-recommends -y \
 	git cmake ninja-build gperf \
  	ccache dfu-util device-tree-compiler wget \

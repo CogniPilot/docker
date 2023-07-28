@@ -1,18 +1,6 @@
 #!/bin/bash
 set -e
 
-# install cyecca
-if [ ! -d ~/work/cyecca ] ; then
-  git clone git@github.com:cognipilot/cyecca ~/work/cyecca
-fi
-
-# install cyecca_ros
-if [ ! -d ~/work/cranium/src/cyecca_ros ] ; then
-  git clone git@github.com:cognipilot/cyecca_ros ~/work/cranium/src/cyecca_ros
-  cd ~/work/cranium
-  colcon build --symlink-install
-fi
-
 # setup cyecca poetry env for use by ros (using shebang)
 mkdir -p ~/bin
 cd ~/bin
@@ -22,7 +10,5 @@ poetry run -C ~/work/cyecca python \$@
 EOF
 chmod +x ~/bin/python_cyecca
 
-# install poetry/ start jupyterlab
-cd ~/work/cyecca
-poetry install
-poetry run jupyter lab
+poetry run -C ~/work/cyecca install
+poetry run -C ~/work/cyecca jupyter lab
