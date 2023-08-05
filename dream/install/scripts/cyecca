@@ -10,5 +10,5 @@ poetry run -C ~/work/cyecca python \$@
 EOF
 chmod +x ~/bin/python_cyecca
 
-poetry run -C ~/work/cyecca install
+poetry install -C ~/work/cyecca
 poetry run -C ~/work/cyecca jupyter lab
