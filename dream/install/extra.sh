@@ -4,6 +4,7 @@ set -x
 
 sudo apt-get -y update
 sudo DEBIAN_FRONTEND=noninteractive  apt-get install --no-install-recommends -y \
+	adwaita-icon-theme-full \
 	appmenu-gtk2-module \
 	appmenu-gtk3-module \
 	clang-format \

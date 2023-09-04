@@ -1,4 +1,5 @@
-FROM ubuntu:22.04
+FROM ubuntu:jammy-20230816
+
 LABEL maintainer="James Goppert <james.goppert@gmail.com>"
 
 #####################################################################
