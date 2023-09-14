@@ -114,7 +114,7 @@ USER user
 ARG VNCPASSWD=cogni<3
 
 COPY helmet/install/scripts/user_setup.sh /tmp/install/user_setup.sh
-RUN /tmp/install/user_setup.sh $VNCPASSWD && /docker_clean.sh
+RUN /tmp/install/user_setup.sh docker && /docker_clean.sh
 
 COPY helmet/install/docker/vnc_setup.sh /tmp/install/vnc_setup.sh
 RUN /tmp/install/vnc_setup.sh $VNCPASSWD && /docker_clean.sh
