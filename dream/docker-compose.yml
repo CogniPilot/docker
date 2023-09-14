@@ -38,7 +38,7 @@ services:
       - gz_config:/home/user/.gz
       - jupyter_config:/home/user/.jupyter
       - rviz2_config:/home/user/.rviz2
-      - ./work:/home/user/work
+      - ./work:/home/user/cognipilot
       - /tmp/.X11-unix:/tmp/.X11-unix
       - $HOME/.gnupg:/home/user/.gnupg
       - $HOME/.ssh:/home/user/.ssh

@@ -20,7 +20,7 @@ ENV PATH="/home/user/bin:${PATH}"
 SHELL ["/bin/bash", "-l", "-c"]
 
 # Copy docker clean script
-COPY install/docker_clean.sh /docker_clean.sh
+COPY helmet/install/docker/docker_clean.sh /docker_clean.sh
 
 # Install base packages
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y update && \
@@ -45,28 +45,20 @@ USER installer
 
 # install dependencies using scripts in a manner that will cache build
 # when one script is modified
-COPY install/base.sh /tmp/install/base.sh
+COPY helmet/install/scripts/base.sh /tmp/install/base.sh
 RUN /tmp/install/base.sh && /docker_clean.sh
 
-COPY install/latex.sh /tmp/install/latex.sh
+COPY helmet/install/scripts/latex.sh /tmp/install/latex.sh
 RUN /tmp/install/latex.sh && /docker_clean.sh
 
-COPY install/vim.sh /opt/vim/vim.sh
-RUN /opt/vim/vim.sh && /docker_clean.sh
-
-COPY install/zephyr.sh /tmp/install/zephyr.sh
+COPY helmet/install/scripts/zephyr.sh /tmp/install/zephyr.sh
 RUN /tmp/install/zephyr.sh && /docker_clean.sh
 
-COPY install/ros.sh /tmp/install/ros.sh
+COPY helmet/install/scripts/ros.sh /tmp/install/ros.sh
 RUN /tmp/install/ros.sh && /docker_clean.sh
 
-COPY install/gazebo.sh /tmp/install/gazebo.sh
+COPY helmet/install/scripts/gazebo.sh /tmp/install/gazebo.sh
 RUN /tmp/install/gazebo.sh && /docker_clean.sh
-
-COPY install/terminator_config /etc/xdg/terminator/config
-
-#COPY install/zenoh.sh /tmp/install/zenoh.sh
-#RUN /tmp/install/zenoh.sh && /docker_clean.sh
 
 # add groups before we do anything that might add a new group
 ARG GID_INPUT=107
@@ -77,7 +69,7 @@ RUN sudo groupadd -r -g $GID_INPUT input && \
  sudo groupadd -r -g $GID_VGLUSERS vglusers
 
 # install virtualgl and turbovnc
-COPY install/virtualgl_3.0.91_amd64.deb /tmp
+COPY helmet/install/resources/virtualgl_3.0.91_amd64.deb /tmp
 RUN cd /tmp && \
   wget https://sourceforge.net/projects/turbovnc/files/3.0.2/turbovnc_3.0.2_amd64.deb  && \
   sudo apt-get -y update && \
@@ -86,21 +78,6 @@ RUN cd /tmp && \
     ./turbovnc_3.0.2_amd64.deb && \
   /docker_clean.sh
 
-COPY install/extra.sh /tmp/install/extra.sh
-RUN /tmp/install/extra.sh && /docker_clean.sh
-
-COPY install/poetry.sh /tmp/install/poetry.sh
-RUN /tmp/install/poetry.sh && /docker_clean.sh
-
-COPY install/JLink_Linux_V788c_x86_64.deb /tmp/
-COPY install/jlink.sh /tmp/jlink.sh
-RUN /tmp/jlink.sh && /docker_clean.sh
-
-# setup zeth ethernet device
-RUN sudo mkdir -p /opt/zeth
-COPY install/net-setup.sh /opt/zeth
-COPY install/zeth.conf /opt/zeth
-
 # enable apt auto-completion by deleting autoclean task
 RUN sudo rm /etc/apt/apt.conf.d/docker-clean
 
@@ -108,7 +85,20 @@ RUN sudo rm /etc/apt/apt.conf.d/docker-clean
 RUN mkdir /tmp/runtime-docker && sudo chmod 700 /tmp/runtime-docker
 
 # install jupyter server config
-COPY install/jupyter_server_config.py /etc/jupyter/
+COPY helmet/install/resources/jupyter_server_config.py /etc/jupyter/
+
+# fixes for terminator
+COPY helmet/install/resources/terminator_config /etc/xdg/terminator/config
+
+# setup zeth ethernet device
+RUN sudo mkdir -p /opt/zeth
+COPY helmet/install/resources/net-setup.sh /opt/zeth
+COPY helmet/install/resources/zeth.conf /opt/zeth
+
+# install jlink
+COPY helmet/install/resources/JLink_Linux_V788c_x86_64.deb /tmp/
+COPY helmet/install/resources/jlink.sh /tmp/jlink.sh
+RUN /tmp/jlink.sh && /docker_clean.sh
 
 #####################################################################
 # Setup User
@@ -122,28 +112,30 @@ RUN sudo useradd --create-home -l -u $UID_USER -G sudo,plugdev,render,input,vglu
 USER user
 
 ARG VNCPASSWD=cogni<3
-COPY install/user_setup.sh /tmp/install/user_setup.sh
+
+COPY helmet/install/scripts/user_setup.sh /tmp/install/user_setup.sh
 RUN /tmp/install/user_setup.sh $VNCPASSWD && /docker_clean.sh
 
-# install gdbinit
-COPY install/gdbinit /home/user/.gdbinit
+COPY helmet/install/docker/vnc_setup.sh /tmp/install/vnc_setup.sh
+RUN /tmp/install/vnc_setup.sh $VNCPASSWD && /docker_clean.sh
+
 
 #####################################################################
 # Setup Scripts
 #####################################################################
-COPY install/scripts/build_mrbuggy3_sitl /home/user/bin
-COPY install/scripts/cyecca /home/user/bin
-COPY install/scripts/docs /home/user/bin
-COPY install/scripts/unlock /home/user/bin
+COPY helmet/install/resources/build_mrbuggy3_sitl /home/user/bin
+COPY helmet/install/resources/cyecca /home/user/bin
+COPY helmet/install/resources/docs /home/user/bin
+COPY helmet/install/resources/unlock /home/user/bin
 
 #####################################################################
 # Setup Volumes
 #####################################################################
 
 # create ws, this is where the source code will be mounted
-VOLUME /home/user/work
-WORKDIR /home/user/work
-RUN mkdir -p /home/user/work
+VOLUME /home/user/cognipilot
+WORKDIR /home/user/cognipilot
+RUN mkdir -p /home/user/cognipilot
 
 # create setting directory for gazebo
 VOLUME /home/user/.gz
@@ -173,7 +165,7 @@ VOLUME /home/user/.gitconfig
 #####################################################################
 
 # setup entry point
-COPY install/entrypoint.sh /
+COPY helmet/install/docker/entrypoint.sh /
 RUN sudo chsh -s /bin/bash user
 
 USER root

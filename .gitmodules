@@ -1,0 +1,3 @@
+[submodule "dream/helmet"]
+	path = dream/helmet
+	url = git@github.com:CogniPilot/helmet.git
