@@ -48,6 +48,9 @@ USER installer
 COPY helmet/install/scripts/base.sh /tmp/install/base.sh
 RUN /tmp/install/base.sh && /docker_clean.sh
 
+COPY helmet/install/scripts/vim.sh /tmp/install/vim.sh
+RUN /tmp/install/vim.sh && /docker_clean.sh
+
 COPY helmet/install/scripts/latex.sh /tmp/install/latex.sh
 RUN /tmp/install/latex.sh && /docker_clean.sh
 
@@ -116,9 +119,11 @@ ARG VNCPASSWD=cogni<3
 COPY helmet/install/scripts/user_setup.sh /tmp/install/user_setup.sh
 RUN /tmp/install/user_setup.sh docker && /docker_clean.sh
 
-COPY helmet/install/docker/vnc_setup.sh /tmp/install/vnc_setup.sh
-RUN /tmp/install/vnc_setup.sh $VNCPASSWD && /docker_clean.sh
+COPY helmet/install/scripts/user_vim.sh /tmp/install/user_vim.sh
+RUN /tmp/install/user_vim.sh docker && /docker_clean.sh
 
+COPY helmet/install/docker/user_vnc.sh /tmp/install/user_vnc.sh
+RUN /tmp/install/user_vnc.sh $VNCPASSWD && /docker_clean.sh
 
 #####################################################################
 # Setup Scripts
@@ -127,7 +132,7 @@ COPY helmet/install/resources/build_workspace /home/user/bin
 COPY helmet/install/resources/build_foxglove /home/user/bin
 COPY helmet/install/resources/cyecca /home/user/bin
 COPY helmet/install/resources/docs /home/user/bin
-COPY helmet/install/resources/unlock /home/user/bin
+COPY helmet/install/docker/unlock /home/user/bin
 
 #####################################################################
 # Setup Volumes
