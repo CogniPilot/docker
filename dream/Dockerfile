@@ -123,7 +123,7 @@ RUN /tmp/install/vnc_setup.sh $VNCPASSWD && /docker_clean.sh
 #####################################################################
 # Setup Scripts
 #####################################################################
-COPY helmet/install/resources/build_b3rb_sitl /home/user/bin
+COPY helmet/install/resources/build_workspace /home/user/bin
 COPY helmet/install/resources/cyecca /home/user/bin
 COPY helmet/install/resources/docs /home/user/bin
 COPY helmet/install/resources/unlock /home/user/bin
