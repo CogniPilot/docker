@@ -63,6 +63,9 @@ RUN /tmp/install/ros.sh && /docker_clean.sh
 COPY helmet/install/scripts/gazebo.sh /tmp/install/gazebo.sh
 RUN /tmp/install/gazebo.sh && /docker_clean.sh
 
+COPY helmet/install/scripts/poetry.sh /tmp/install/poetry.sh
+RUN /tmp/install/poetry.sh && /docker_clean.sh
+
 # add groups before we do anything that might add a new group
 ARG GID_INPUT=107
 ARG GID_RENDER=110
