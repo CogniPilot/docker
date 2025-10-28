@@ -53,6 +53,7 @@ RUN <<EOF
 		gcc \
 		gcovr \
 		gdb \
+		gfortran \
 		git \
 		git-core \
 		gnupg \
@@ -61,9 +62,11 @@ RUN <<EOF
 		help2man \
 		iproute2 \
 		lcov \
+		libblas-dev \
 		libcairo2-dev \
 		libglib2.0-dev \
 		libgtk2.0-0 \
+		liblapack-dev \
 		liblocale-gettext-perl \
 		libncurses5-dev \
 		libpcap-dev \
