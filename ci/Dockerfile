@@ -85,10 +85,12 @@ RUN <<EOF
 		openssh-client \
 		parallel \
 		pkg-config \
+		protobuf-compiler \
 		python3 \
 		python3-dev \
 		python3-pip \
 		python3-ply \
+		python3-protobuf \
 		python3-setuptools \
 		python3-venv \
 		python-is-python3 \
@@ -158,7 +160,6 @@ RUN <<EOF
 		junitparser \
 		junit2html \
 		numpy \
-		protobuf \
 		grpcio-tools \
 		PyGithub \
 		pylint \
@@ -186,7 +187,7 @@ RUN <<EOF
 	chmod 0440 /etc/sudoers.d/$USERNAME
 EOF
 
-ARG ZSDK_VERSION=0.17.3
+ARG ZSDK_VERSION=0.17.4
 ENV ZSDK_VERSION=$ZSDK_VERSION
 
 # Install Zephyr SDK
