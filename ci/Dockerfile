@@ -12,8 +12,6 @@ ARG WGET_ARGS="-q --show-progress --progress=bar:force:noscroll"
 
 ARG KITWARE_NINJA_VERSION=1.11.1.g95dee.kitware.jobserver-1
 ENV KITWARE_NINJA_VERSION=$KITWARE_NINJA_VERSION
-ARG LLVM_VERSION=20
-ENV LLVM_VERSION=$LLVM_VERSION
 
 # Set default shell during Docker image build to bash
 SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
@@ -39,8 +37,11 @@ RUN <<EOF
 		ca-certificates \
 		ccache \
 		chrpath \
+		clang-format \
+		clang-tidy \
 		cmake \
 		cpio \
+		curl \
 		device-tree-compiler \
 		dfu-util \
 		diffstat \
@@ -87,13 +88,6 @@ RUN <<EOF
 		pkg-config \
 		protobuf-compiler \
 		python3 \
-		python3-dev \
-		python3-pip \
-		python3-ply \
-		python3-protobuf \
-		python3-setuptools \
-		python3-venv \
-		python-is-python3 \
 		rsync \
 		socat \
 		srecord \
@@ -107,23 +101,32 @@ RUN <<EOF
 		thrift-compiler \
 		gcc-multilib \
 		g++-multilib
+EOF
 
-	# Install LLVM and Clang
-	apt-get install --no-install-recommends -y \
-		clang-${LLVM_VERSION} \
-		clang-format-${LLVM_VERSION} \
-		clang-tidy-${LLVM_VERSION} \
-		clang-tools-${LLVM_VERSION} \
-		clangd-${LLVM_VERSION} \
-		libc++-${LLVM_VERSION}-dev \
-		lld-${LLVM_VERSION} \
-		lldb-${LLVM_VERSION} \
-		llvm-${LLVM_VERSION}
-
+# Install Python and Clang
+RUN <<EOF
 	wget -O- https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
-    add-apt-repository --no-update --yes "deb http://apt.llvm.org/noble/ llvm-toolchain-noble-18 main"
-    apt update
-    apt install pipx python3-poetry curl clang-format-18 -y
+	add-apt-repository --no-update --yes "deb http://apt.llvm.org/noble/ llvm-toolchain-noble-18 main"
+	apt update
+	apt-get install --no-install-recommends -y \
+		protobuf-compiler \
+		python3-beartype \
+		python3-dev \
+		python3-jinja2 \
+		python3-numpy \
+		python3-pip \
+		python3-poetry \
+		python3-protobuf \
+		python3-pyelftools \
+		python3-pykwalify \
+		python3-setuptools \
+		python3-tk \
+		python3-venv \
+		python3-wheel \
+		python3-xdg \
+		python3-xmltodict \
+		python-is-python3 \
+		clang-format-18 \
 
 	# Clean up stale packages
 	apt-get autoremove --purge -y
@@ -141,6 +144,7 @@ ENV LC_ALL=en_US.UTF-8
 
 # Set up Python virtual environment for Zephyr
 RUN <<EOF
+
 	# Initialise virtual environment
 	mkdir -p ${PYTHON_VENV_PATH}
 	python3 -m venv ${PYTHON_VENV_PATH}
@@ -148,25 +152,16 @@ RUN <<EOF
 	# Activate virtual environment for subsequent steps
 	source ${PYTHON_VENV_PATH}/bin/activate
 
-	# Install pip package manager
-	pip install --no-cache-dir --upgrade pip setuptools wheel
-
 	# Install Zephyr requirements
 	pip install --no-cache-dir \
+		wheel \
+		west \
+		typeguard \
+		catkin-tools \
+		grpcio-tools \
 		-r https://raw.githubusercontent.com/zephyrproject-rtos/zephyr/main/scripts/requirements.txt \
 		-r https://raw.githubusercontent.com/zephyrproject-rtos/mcuboot/main/scripts/requirements.txt \
-		-r https://raw.githubusercontent.com/zephyrproject-rtos/trusted-firmware-m/main/tools/requirements.txt \
-		GitPython \
-		junitparser \
-		junit2html \
-		numpy \
-		grpcio-tools \
-		PyGithub \
-		pylint \
-		sh \
-		statistics \
-		west
-
+		-r https://raw.githubusercontent.com/zephyrproject-rtos/trusted-firmware-m/main/tools/requirements.txt
 	pip check
 EOF
 
