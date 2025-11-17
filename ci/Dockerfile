@@ -18,115 +18,51 @@ SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 
 # Set non-interactive frontend for apt-get to skip any user confirmations
 ENV DEBIAN_FRONTEND=noninteractive
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
 
 # Install APT packages
 RUN <<EOF
 
 	# Upgrade system packages
 	apt-get -y update
-	apt-get -y upgrade
-
-	# Install base packages
 	apt-get install --no-install-recommends -y \
-		software-properties-common \
-		lsb-release \
-		autoconf \
-		automake \
-		bison \
-		build-essential \
-		ca-certificates \
-		ccache \
-		chrpath \
-		clang-format \
-		clang-tidy \
-		cmake \
-		cpio \
-		curl \
-		device-tree-compiler \
-		dfu-util \
-		diffstat \
-		dos2unix \
-		doxygen \
-		file \
-		flex \
-		g++ \
-		gawk \
-		gcc \
-		gcovr \
-		gdb \
-		gfortran \
-		git \
-		git-core \
-		gnupg \
-		gperf \
-		graphviz \
-		help2man \
-		iproute2 \
-		lcov \
-		libblas-dev \
-		libcairo2-dev \
-		libglib2.0-dev \
-		libgtk2.0-0 \
-		liblapack-dev \
-		liblocale-gettext-perl \
-		libncurses5-dev \
-		libpcap-dev \
-		libpopt0 \
-		libsdl1.2-dev \
-		libsdl2-dev \
-		libssl-dev \
-		libtool \
-		libtool-bin \
-		locales \
-		make \
-		net-tools \
-		ninja-build \
-		nodejs \
-		npm \
-		openssh-client \
-		parallel \
-		pkg-config \
-		protobuf-compiler \
-		python3 \
-		rsync \
-		socat \
-		srecord \
-		sudo \
-		texinfo \
-		unzip \
-		valgrind \
 		wget \
-		ovmf \
-		xz-utils \
-		thrift-compiler \
-		gcc-multilib \
-		g++-multilib
-EOF
+		ca-certificates \
+		gnupg \
+		software-properties-common
 
-# Install Python and Clang
-RUN <<EOF
 	wget -O- https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 	add-apt-repository --no-update --yes "deb http://apt.llvm.org/noble/ llvm-toolchain-noble-18 main"
 	apt update
 	apt-get install --no-install-recommends -y \
+		ccache \
+		clang-format \
+		clang-format-18 \
+		clang-tidy \
+		cmake \
+		device-tree-compiler \
+		dfu-util \
+		file \
+		gcc-multilib \
+		g++-multilib \
+		git \
+		gperf \
+		libmagic1 \
+		libsdl2-dev \
+		locales \
+		ninja-build \
 		protobuf-compiler \
-		python3-beartype \
 		python3-dev \
-		python3-jinja2 \
-		python3-numpy \
-		python3-pip \
 		python3-poetry \
 		python3-protobuf \
-		python3-pyelftools \
-		python3-pykwalify \
-		python3-setuptools \
 		python3-tk \
 		python3-venv \
-		python3-wheel \
-		python3-xdg \
-		python3-xmltodict \
 		python-is-python3 \
-		clang-format-18 \
+		thrift-compiler \
+		sudo \
+		xz-utils
 
 	# Clean up stale packages
 	apt-get autoremove --purge -y
@@ -134,16 +70,7 @@ RUN <<EOF
 	# Clean up local repository
 	apt-get clean -y
 	rm -rf /var/lib/apt/lists/*
-EOF
-
-# Initialise system locale
-RUN locale-gen en_US.UTF-8
-ENV LANG=en_US.UTF-8
-ENV LANGUAGE=en_US:en
-ENV LC_ALL=en_US.UTF-8
-
-# Set up Python virtual environment for Zephyr
-RUN <<EOF
+	locale-gen en_US.UTF-8
 
 	# Initialise virtual environment
 	mkdir -p ${PYTHON_VENV_PATH}
@@ -191,16 +118,10 @@ RUN <<EOF
 	cd /opt/toolchains
 	wget ${WGET_ARGS} https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${ZSDK_VERSION}/zephyr-sdk-${ZSDK_VERSION}_linux-x86_64_minimal.tar.xz
 	tar xf zephyr-sdk-${ZSDK_VERSION}_linux-x86_64_minimal.tar.xz
-EOF
-
-RUN <<EOF
 	cd /opt/toolchains/zephyr-sdk-${ZSDK_VERSION}
 	wget ${WGET_ARGS} https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${ZSDK_VERSION}/toolchain_linux-x86_64_arm-zephyr-eabi.tar.xz
 	tar xf toolchain_linux-x86_64_arm-zephyr-eabi.tar.xz
 	rm toolchain_linux-x86_64_arm-zephyr-eabi.tar.xz
-EOF
-
-RUN <<EOF
 	cd /opt/toolchains
 	zephyr-sdk-${ZSDK_VERSION}/setup.sh -t all -h -c
 	rm zephyr-sdk-${ZSDK_VERSION}_linux-x86_64_minimal.tar.xz
