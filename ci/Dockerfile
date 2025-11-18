@@ -52,6 +52,7 @@ RUN <<EOF
 		libmagic1 \
 		libsdl2-dev \
 		locales \
+		make \
 		ninja-build \
 		protobuf-compiler \
 		python3-dev \
@@ -86,7 +87,10 @@ RUN <<EOF
 		typeguard \
 		catkin-tools \
 		grpcio-tools \
-		-r https://raw.githubusercontent.com/zephyrproject-rtos/zephyr/main/scripts/requirements.txt \
+		spsdk>=3.0.0 \
+		-r https://raw.githubusercontent.com/zephyrproject-rtos/zephyr/main/scripts/requirements-base.txt \
+		-r https://raw.githubusercontent.com/zephyrproject-rtos/zephyr/main/scripts/requirements-build-test.txt \
+		-r https://raw.githubusercontent.com/zephyrproject-rtos/zephyr/main/scripts/requirements-compliance.txt \
 		-r https://raw.githubusercontent.com/zephyrproject-rtos/mcuboot/main/scripts/requirements.txt \
 		-r https://raw.githubusercontent.com/zephyrproject-rtos/trusted-firmware-m/main/tools/requirements.txt
 	pip check
